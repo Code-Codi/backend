@@ -42,4 +42,14 @@ public class ScheduleController {
     public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@RequestBody ScheduleUpdateRequestDTO request) {
         return ApiResponse.onSuccess(ScheduleConverter.toScheduleUpdateResponseDTO(scheduleCommandService.updateSchedule(request)));
     }
+
+    @Operation(summary = "스케줄 삭제", description = "스케줄을 삭제합니다.")
+    @DeleteMapping("/{scheduleId}")
+    @Parameters({
+            @Parameter(name = "scheduleId", description = "스케줄 ID(PK)")
+    })
+    public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId) {
+        scheduleCommandService.deleteSchedule(scheduleId);
+        return ApiResponse.onSuccess("스케줄이 성공적으로 삭제되었습니다.");
+    }
 }

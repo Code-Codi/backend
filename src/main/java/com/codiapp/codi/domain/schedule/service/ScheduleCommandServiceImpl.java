@@ -38,4 +38,10 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 
         return schedule;
     }
+
+    @Override
+    public void deleteSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new ScheduleHandler(ErrorStatus.SCHEDULE_NOT_FOUND));
+        scheduleRepository.delete(schedule);
+    }
 }
