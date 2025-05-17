@@ -20,16 +20,32 @@ public class Schedule extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String title;
 
-    @Column(length = 50, nullable = false)
-    private String content;
-
     @JoinColumn(name = "start_date")
     private LocalDateTime startDate;
 
     @JoinColumn(name = "end_date")
     private LocalDateTime endDate;
 
+    @Column(length = 50, nullable = false)
+    private String content;
+
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

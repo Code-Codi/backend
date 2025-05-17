@@ -1,9 +1,11 @@
 package com.codiapp.codi.domain.schedule.controller;
 
 import com.codiapp.codi.domain.schedule.converter.ScheduleConverter;
-import com.codiapp.codi.domain.schedule.dto.ScheduleCreateRequestDTO;
-import com.codiapp.codi.domain.schedule.dto.ScheduleCreateResponseDTO;
-import com.codiapp.codi.domain.schedule.dto.ScheduleDetailResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.request.ScheduleCreateRequestDTO;
+import com.codiapp.codi.domain.schedule.dto.request.ScheduleUpdateRequestDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleCreateResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleDetailResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleUpdateResponseDTO;
 import com.codiapp.codi.domain.schedule.service.ScheduleCommandService;
 import com.codiapp.codi.domain.schedule.service.ScheduleQueryService;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
@@ -33,5 +35,11 @@ public class ScheduleController {
     @PostMapping("")
     public ApiResponse<ScheduleCreateResponseDTO> createSchedule(@RequestBody ScheduleCreateRequestDTO request) {
         return ApiResponse.onSuccess(ScheduleConverter.toScheduleCreateResponseDTO(scheduleCommandService.createSchedule(request)));
+    }
+
+    @Operation(summary = "스케줄 수정", description = "스케줄의 상세 정보를 수정합니다.")
+    @PatchMapping("")
+    public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@RequestBody ScheduleUpdateRequestDTO request) {
+        return ApiResponse.onSuccess(ScheduleConverter.toScheduleUpdateResponseDTO(scheduleCommandService.updateSchedule(request)));
     }
 }

@@ -1,8 +1,9 @@
 package com.codiapp.codi.domain.schedule.converter;
 
-import com.codiapp.codi.domain.schedule.dto.ScheduleCreateRequestDTO;
-import com.codiapp.codi.domain.schedule.dto.ScheduleCreateResponseDTO;
-import com.codiapp.codi.domain.schedule.dto.ScheduleDetailResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.request.ScheduleCreateRequestDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleCreateResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleDetailResponseDTO;
+import com.codiapp.codi.domain.schedule.dto.response.ScheduleUpdateResponseDTO;
 import com.codiapp.codi.domain.schedule.entity.Schedule;
 import com.codiapp.codi.domain.team.entity.Team;
 
@@ -31,6 +32,13 @@ public class ScheduleConverter {
 
     public static ScheduleCreateResponseDTO toScheduleCreateResponseDTO(Schedule schedule) {
         return ScheduleCreateResponseDTO.builder()
+                .id(schedule.getId())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static ScheduleUpdateResponseDTO toScheduleUpdateResponseDTO(Schedule schedule) {
+        return ScheduleUpdateResponseDTO.builder()
                 .id(schedule.getId())
                 .createdAt(LocalDateTime.now())
                 .build();
