@@ -7,20 +7,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class CodiApplication implements CommandLineRunner {
+public class CodiApplication {
     public static void main(String[] args) {
         SpringApplication.run(CodiApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) {
-//        Hello hello = new Hello();
-//        hello.setId(1L);
-//        hello.setMessage("Hello Oracle!");
-//
-//        helloRepository.save(hello);
-
-        System.out.println(" 저장 완료!");
     }
 
 }
