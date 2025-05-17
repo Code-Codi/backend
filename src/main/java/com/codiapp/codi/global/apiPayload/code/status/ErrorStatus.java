@@ -22,6 +22,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 회의록 관련 에러
     MEETING_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEETING4001", "회의록이 없습니다."),
+
+    //과제 관련 에러
+    TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK4001", "과제가 없습니다."),
     ;
 
     private final HttpStatus httpStatus;
