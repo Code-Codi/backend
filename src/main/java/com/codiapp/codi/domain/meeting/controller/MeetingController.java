@@ -1,6 +1,7 @@
 package com.codiapp.codi.domain.meeting.controller;
 
 import com.codiapp.codi.domain.meeting.dto.request.MeetingCreateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.request.MeetingUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.entity.Meeting;
 import com.codiapp.codi.domain.meeting.service.MeetingCommandService;
@@ -34,5 +35,18 @@ public class MeetingController {
     public ResponseEntity<MeetingDetailResponseDTO> getMeeting(@Parameter(description = "회의록 ID") @PathVariable Long id) {
         MeetingDetailResponseDTO dto = meetingQueryService.getMeetingDetail(id);
         return ResponseEntity.ok(dto);
+    }
+    @PatchMapping("/{meetingId}")
+    public ResponseEntity<Meeting> updateMeeting(
+            @PathVariable Long meetingId,
+            @RequestBody MeetingUpdateRequestDTO request
+    ) {
+        Meeting updated = meetingCommandService.updateMeeting(meetingId, request);
+        return ResponseEntity.ok(updated);
+    }
+    @DeleteMapping("/{meetingId}")
+    public ResponseEntity<Void> deleteMeeting(@PathVariable Long meetingId) {
+        meetingCommandService.deleteMeeting(meetingId);
+        return ResponseEntity.noContent().build();
     }
 }
