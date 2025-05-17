@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.meeting.entity;
 
+import com.codiapp.codi.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -22,6 +23,10 @@ public class Meeting {
     private LocalDateTime dateTime;
 
     private String location;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Agenda> agendas = new ArrayList<>();
