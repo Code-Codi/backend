@@ -19,6 +19,9 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
     SCHEDULE_NOT_FOUND(HttpStatus.BAD_REQUEST, "SCHEDULE4001", "존재하지 않는 스케줄입니다."),
     TEAM_NOT_FOUND(HttpStatus.BAD_REQUEST, "TEAM4001", "존재하지 않는 팀입니다."),
+
+    // 회의록 관련 에러
+    MEETING_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEETING4001", "회의록이 없습니다."),
     ;
 
     private final HttpStatus httpStatus;
