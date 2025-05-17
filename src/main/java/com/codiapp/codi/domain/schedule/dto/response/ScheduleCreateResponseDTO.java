@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.schedule.dto;
+package com.codiapp.codi.domain.schedule.dto.response;
 
 import lombok.Builder;
 

@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.schedule.dto;
+package com.codiapp.codi.domain.schedule.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
