@@ -12,7 +12,7 @@ public class AgendaDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long agendaDetailId;
+    private Long Id;
 
     @Column(columnDefinition = "TEXT")
     private String content;

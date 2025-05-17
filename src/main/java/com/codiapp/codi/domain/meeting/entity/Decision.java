@@ -12,7 +12,7 @@ public class Decision {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long decisionId;
+    private Long Id;
 
     @Column(columnDefinition = "TEXT")
     private String content;

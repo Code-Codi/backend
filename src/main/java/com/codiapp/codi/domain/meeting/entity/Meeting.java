@@ -15,7 +15,7 @@ public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long meetingId;
+    private Long Id;
 
     private String title;
 
