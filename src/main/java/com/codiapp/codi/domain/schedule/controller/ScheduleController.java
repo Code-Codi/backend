@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.Parameters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/schedules")
@@ -51,5 +53,15 @@ public class ScheduleController {
     public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleCommandService.deleteSchedule(scheduleId);
         return ApiResponse.onSuccess("스케줄이 성공적으로 삭제되었습니다.");
+    }
+
+    @Operation(summary = "스케줄 목록 조회", description = "선택한 연도와 월에 해당하는 스케줄 목록을 조회합니다.")
+    @GetMapping("")
+    @Parameters({
+            @Parameter(name = "year", description = "조회할 연도"),
+            @Parameter(name = "month", description = "조회할 월")
+    })
+    public ApiResponse<List<ScheduleDetailResponseDTO>> getSchedulesByMonthAndYear(@RequestParam int year, @RequestParam int month) {
+        return ApiResponse.onSuccess(scheduleQueryService.getSchedulesByMonthAndYear(year, month));
     }
 }
