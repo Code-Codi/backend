@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.schedule.entity;
 
+import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,4 +28,8 @@ public class Schedule extends BaseEntity {
 
     @JoinColumn(name = "end_date")
     private LocalDateTime endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 }
