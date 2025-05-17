@@ -45,4 +45,8 @@ public class Task {
         this.status = status;
         this.taskDate = taskDate;
     }
+
+    public void clearDetails() {
+        this.details.clear();
+    }
 }
