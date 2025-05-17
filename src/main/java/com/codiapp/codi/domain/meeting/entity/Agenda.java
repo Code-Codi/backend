@@ -14,8 +14,9 @@ import java.util.List;
 public class Agenda {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agenda_seq_gen")
+    @SequenceGenerator(name = "agenda_seq_gen", sequenceName = "AGENDA_SEQ", allocationSize = 1)
+    private Long id;
 
     private String title;
 
@@ -23,6 +24,7 @@ public class Agenda {
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
 
+    @Builder.Default
     @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AgendaDetail> details = new ArrayList<>();
 

@@ -15,8 +15,9 @@ import java.util.List;
 public class Meeting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meeting_seq_gen")
+    @SequenceGenerator(name = "meeting_seq_gen", sequenceName = "MEETING_SEQ", allocationSize = 1)
+    private Long id;
 
     private String title;
 
@@ -28,9 +29,11 @@ public class Meeting {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Builder.Default
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Agenda> agendas = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Decision> decisions = new ArrayList<>();
 
