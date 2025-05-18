@@ -28,13 +28,10 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
 
     @Override
     @Transactional
-    public Schedule updateSchedule(ScheduleUpdateRequestDTO request) {
-        Schedule schedule = scheduleRepository.findById(request.scheduleId()).orElseThrow(() -> new ScheduleHandler(ErrorStatus.SCHEDULE_NOT_FOUND));
+    public Schedule updateSchedule(Long id, ScheduleUpdateRequestDTO request) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new ScheduleHandler(ErrorStatus.SCHEDULE_NOT_FOUND));
 
-        schedule.setTitle(request.title());
-        schedule.setStartDate(request.startDate());
-        schedule.setEndDate(request.endDate());
-        schedule.setContent(request.content());
+        schedule.updateSchedule(request.title(), request.startDate(), request.endDate(), request.content());
 
         return schedule;
     }

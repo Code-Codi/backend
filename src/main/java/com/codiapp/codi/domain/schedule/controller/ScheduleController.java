@@ -40,9 +40,12 @@ public class ScheduleController {
     }
 
     @Operation(summary = "스케줄 수정", description = "스케줄의 상세 정보를 수정합니다.")
-    @PatchMapping("")
-    public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@RequestBody ScheduleUpdateRequestDTO request) {
-        return ApiResponse.onSuccess(ScheduleConverter.toScheduleUpdateResponseDTO(scheduleCommandService.updateSchedule(request)));
+    @PatchMapping("/{scheduleId}")
+    @Parameters({
+            @Parameter(name = "scheduleId", description = "스케줄 ID(PK)")
+    })
+    public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDTO request) {
+        return ApiResponse.onSuccess(ScheduleConverter.toScheduleUpdateResponseDTO(scheduleCommandService.updateSchedule(scheduleId, request)));
     }
 
     @Operation(summary = "스케줄 삭제", description = "스케줄을 삭제합니다.")

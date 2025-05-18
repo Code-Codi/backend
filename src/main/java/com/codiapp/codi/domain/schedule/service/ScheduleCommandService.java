@@ -6,6 +6,6 @@ import com.codiapp.codi.domain.schedule.entity.Schedule;
 
 public interface ScheduleCommandService {
     Schedule createSchedule(ScheduleCreateRequestDTO request);
-    Schedule updateSchedule(ScheduleUpdateRequestDTO request);
+    Schedule updateSchedule(Long id, ScheduleUpdateRequestDTO request);
     void deleteSchedule(Long id);
 }
