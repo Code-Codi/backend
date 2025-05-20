@@ -33,19 +33,10 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
-    public void setTitle(String title) {
+    public void updateSchedule(String title, LocalDateTime startDate, LocalDateTime endDate, String content) {
         this.title = title;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
 }
