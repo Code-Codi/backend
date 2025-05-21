@@ -1,7 +1,8 @@
 package com.codiapp.codi.domain.project.entity.project;
 
-import java.sql.Date;
 
+
+import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,12 +21,12 @@ public class Project {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
-	@Column(nullable = false)
+	@Column(length = 50, nullable = false)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(length = 2000, nullable = false)
 	private String description;
 	
 	@Column(nullable = true)
@@ -39,11 +41,11 @@ public class Project {
 	@Column(nullable = true)
 	private Date deadline;
 	
-	@Column(nullable = true)
+	@Column(length = 10, nullable = true)
 	private String priority;
 	
-	@Column(nullable = true)
-	private boolean repeat;
+	@Column(length = 10, nullable = true)
+	private String manager;
 	
 	@Column(nullable = true)
 	private int progressPercent;
@@ -53,8 +55,8 @@ public class Project {
 	private Status status;
 	
 	//나중에 팀정보로 수정
-	@Column(nullable = false)
-	private int teamId;
+	 @JoinColumn(name = "team_id", nullable = false)
+	private Long teamId;
 	
 	
 }
