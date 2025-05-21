@@ -39,29 +39,32 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
 
-        // 기본 정보 수정
-        meeting.update(request.title(), request.dateTime(), request.location());
+        // 개별 필드만 수정
+        request.title().ifPresent(meeting::setTitle);
+        request.dateTime().ifPresent(meeting::setDateTime);
+        request.location().ifPresent(meeting::setLocation);
 
-        // 기존 Agenda, Decision 삭제
-        meeting.getAgendas().clear();
-        meeting.getDecisions().clear();
-
-        // 새로운 Agenda 추가
-        request.agendas().forEach(agendaDTO -> {
-            Agenda agenda = Agenda.builder().title(agendaDTO.title()).build();
-            agendaDTO.details().forEach(detailContent -> {
-                AgendaDetail detail = AgendaDetail.builder().content(detailContent).build();
-                agenda.addDetail(detail);
+        // agendas가 있을 때만 전체 대체
+        if (request.agendas().isPresent()) {
+            meeting.getAgendas().clear();
+            request.agendas().get().forEach(agendaDTO -> {
+                Agenda agenda = Agenda.builder().title(agendaDTO.title()).build();
+                agendaDTO.details().forEach(detailContent -> {
+                    AgendaDetail detail = AgendaDetail.builder().content(detailContent).build();
+                    agenda.addDetail(detail);
+                });
+                meeting.addAgenda(agenda);
             });
-            meeting.addAgenda(agenda);
-        });
+        }
 
-        // 새로운 Decision 추가
-        request.decisions().forEach(content -> {
-            Decision decision = Decision.builder().content(content).build();
-            meeting.addDecision(decision);
-        });
-
+        // decisions가 있을 때만 전체 대체
+        if (request.decisions().isPresent()) {
+            meeting.getDecisions().clear();
+            request.decisions().get().forEach(content -> {
+                Decision decision = Decision.builder().content(content).build();
+                meeting.addDecision(decision);
+            });
+        }
         return meeting;
     }
 
