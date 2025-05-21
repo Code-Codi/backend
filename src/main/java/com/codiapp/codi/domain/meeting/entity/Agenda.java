@@ -35,4 +35,8 @@ public class Agenda {
         details.add(detail);
         detail.setAgenda(this);
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

@@ -25,4 +25,8 @@ public class AgendaDetail {
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

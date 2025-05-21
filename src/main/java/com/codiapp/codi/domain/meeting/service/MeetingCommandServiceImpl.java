@@ -28,7 +28,6 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
     public Meeting createMeeting(MeetingCreateRequestDTO request) {
         Team team = teamRepository.findById(request.teamId())
                 .orElseThrow(() -> new TeamHandler(ErrorStatus.TEAM_NOT_FOUND));
-
         Meeting meeting = MeetingConverter.toMeeting(request, team);
         return meetingRepository.save(meeting);
     }
@@ -39,32 +38,10 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
 
-        // 개별 필드만 수정
         request.title().ifPresent(meeting::setTitle);
         request.dateTime().ifPresent(meeting::setDateTime);
         request.location().ifPresent(meeting::setLocation);
 
-        // agendas가 있을 때만 전체 대체
-        if (request.agendas().isPresent()) {
-            meeting.getAgendas().clear();
-            request.agendas().get().forEach(agendaDTO -> {
-                Agenda agenda = Agenda.builder().title(agendaDTO.title()).build();
-                agendaDTO.details().forEach(detailContent -> {
-                    AgendaDetail detail = AgendaDetail.builder().content(detailContent).build();
-                    agenda.addDetail(detail);
-                });
-                meeting.addAgenda(agenda);
-            });
-        }
-
-        // decisions가 있을 때만 전체 대체
-        if (request.decisions().isPresent()) {
-            meeting.getDecisions().clear();
-            request.decisions().get().forEach(content -> {
-                Decision decision = Decision.builder().content(content).build();
-                meeting.addDecision(decision);
-            });
-        }
         return meeting;
     }
 
@@ -72,7 +49,6 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
     public void deleteMeeting(Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
-
         meetingRepository.delete(meeting);
     }
 }

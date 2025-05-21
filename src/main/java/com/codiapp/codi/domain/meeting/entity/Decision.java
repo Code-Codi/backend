@@ -24,4 +24,7 @@ public class Decision {
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
     }
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

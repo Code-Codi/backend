@@ -7,8 +7,6 @@ public record MeetingCreateRequestDTO(
         Long teamId,
         String title,
         LocalDateTime dateTime,
-        String location,
-        List<AgendaRequestDTO> agendas,
-        List<String> decisions
+        String location
 ) {}
 

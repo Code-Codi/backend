@@ -12,31 +12,14 @@ import java.util.stream.Collectors;
 public class MeetingConverter {
 
     public static Meeting toMeeting(MeetingCreateRequestDTO request, Team team) {
-        Meeting meeting = Meeting.builder()
+        return Meeting.builder()
                 .title(request.title())
                 .dateTime(request.dateTime())
                 .location(request.location())
                 .team(team)
                 .build();
-
-        // 안건
-        request.agendas().forEach(agendaDTO -> {
-            Agenda agenda = Agenda.builder().title(agendaDTO.title()).build();
-            agendaDTO.details().forEach(detailContent -> {
-                AgendaDetail detail = AgendaDetail.builder().content(detailContent).build();
-                agenda.addDetail(detail);
-            });
-            meeting.addAgenda(agenda);
-        });
-
-        // 결정사항
-        request.decisions().forEach(content -> {
-            Decision decision = Decision.builder().content(content).build();
-            meeting.addDecision(decision);
-        });
-
-        return meeting;
     }
+
 
     public static MeetingDetailResponseDTO toMeetingDetailResponseDTO(Meeting meeting) {
         List<AgendaResponseDTO> agendas = meeting.getAgendas().stream()

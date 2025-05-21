@@ -7,7 +7,5 @@ import java.util.Optional;
 public record MeetingUpdateRequestDTO(
         Optional<String> title,
         Optional<LocalDateTime> dateTime,
-        Optional<String> location,
-        Optional<List<AgendaRequestDTO>> agendas,
-        Optional<List<String>> decisions
+        Optional<String> location
 ) {}
