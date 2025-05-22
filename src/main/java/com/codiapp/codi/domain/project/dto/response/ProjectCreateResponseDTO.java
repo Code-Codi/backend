@@ -17,7 +17,6 @@ public class ProjectCreateResponseDTO {
 	private String name;
 	private String description;
 	private String priority;
-	private int progressPercent;
 	private Status status;
 	private String manager;
 	@JsonFormat(pattern = "yyyy-MM-dd")

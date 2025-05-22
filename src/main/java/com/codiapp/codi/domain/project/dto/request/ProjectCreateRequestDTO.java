@@ -38,11 +38,6 @@ public class ProjectCreateRequestDTO {
 	
 	private String priority;
 	
-	
-	@Min(value = 0, message = "진행률은 0 이상이어야 합니다.")
-    @Max(value = 100, message = "진행률은 100 이하이어야 합니다.")
-	private int progressPercent;
-	
 	private Status status;
 	
 	private String manager;

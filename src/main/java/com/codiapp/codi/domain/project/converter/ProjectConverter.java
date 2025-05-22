@@ -22,7 +22,6 @@ public class ProjectConverter {
         project.setDeadline(dto.getDeadline());
         project.setTargetDeadline(dto.getTargetDeadline());
         project.setPriority(dto.getPriority());
-        project.setProgressPercent(dto.getProgressPercent());
         project.setStatus(dto.getStatus());
         project.setTeamId(dto.getTeamId());
         project.setManager(dto.getManager());
@@ -49,8 +48,8 @@ public class ProjectConverter {
 	                .deadline(project.getDeadline())
 	                .priority(project.getPriority())
 	                .manager(project.getManager())
-	                .progressPercent(project.getProgressPercent())
 	                .status(project.getStatus())
+	                .createdAt(project.getCreatedAt())
 	                .teamId(project.getTeamId())
 	                .build();
 	    }
@@ -72,7 +71,6 @@ public class ProjectConverter {
 	        project.setDeadline(dto.getDeadline());
 	        project.setTargetDeadline(dto.getTargetDeadline());
 	        project.setPriority(dto.getPriority());
-	        project.setProgressPercent(dto.getProgressPercent());
 	        project.setStatus(dto.getStatus());
 	        project.setManager(dto.getManager());
 	        return project;

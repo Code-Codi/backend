@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.project.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.codiapp.codi.domain.project.entity.project.Status;
@@ -26,7 +27,8 @@ public class ProjectReadResponseDTO {
 	    private Date deadline;
 	    private String priority;
 	    private String manager;
-	    private int progressPercent;
 	    private Status status;
+	    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	    private LocalDateTime createdAt;
 	    private Long teamId;
 }

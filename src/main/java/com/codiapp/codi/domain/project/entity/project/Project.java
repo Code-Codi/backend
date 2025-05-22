@@ -2,7 +2,11 @@ package com.codiapp.codi.domain.project.entity.project;
 
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,9 +51,6 @@ public class Project {
 	@Column(length = 10, nullable = true)
 	private String manager;
 	
-	@Column(nullable = true)
-	private int progressPercent;
-	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -58,5 +59,7 @@ public class Project {
 	 @JoinColumn(name = "team_id", nullable = false)
 	private Long teamId;
 	
-	
+	@CreationTimestamp
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime createdAt;
 }
