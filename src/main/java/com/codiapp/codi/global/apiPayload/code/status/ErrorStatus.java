@@ -25,6 +25,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //과제 관련 에러
     TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK4001", "과제가 없습니다."),
+    TASK_DETAIL_NOT_FOUND(HttpStatus.BAD_REQUEST,"TASKD4001", "해당 TaskDetail을 찾을 수 없습니다."),
+
     ;
 
     private final HttpStatus httpStatus;

@@ -7,9 +7,13 @@ import com.codiapp.codi.domain.task.repository.TaskRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 import com.codiapp.codi.global.apiPayload.exception.handler.TaskHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.codiapp.codi.domain.task.entity.Task;
 @Service
 @RequiredArgsConstructor
@@ -25,10 +29,8 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     }
 
     @Override
-    public List<TaskListResponseDTO> getTaskListByTeam(Long teamId) {
-        List<Task> taskList = taskRepository.findByTeamId(teamId);
-        return taskList.stream()
-                .map(TaskConverter::toTaskListResponseDTO)
-                .toList();
+    public Page<TaskListResponseDTO> getAllTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable)
+                .map(TaskConverter::toTaskListResponseDTO);
     }
 }
