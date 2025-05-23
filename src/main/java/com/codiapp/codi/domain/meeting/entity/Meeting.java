@@ -15,8 +15,7 @@ import java.util.List;
 public class Meeting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meeting_seq_gen")
-    @SequenceGenerator(name = "meeting_seq_gen", sequenceName = "MEETING_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -29,12 +28,13 @@ public class Meeting {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @Builder.Default
+
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Agenda> agendas = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Decision> decisions = new ArrayList<>();
 
     public void addAgenda(Agenda agenda) {
@@ -47,9 +47,16 @@ public class Meeting {
         decision.setMeeting(this);
     }
 
-    public void update(String title, LocalDateTime dateTime, String location) {
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public void setLocation(String location) {
         this.location = location;
     }
+
 }

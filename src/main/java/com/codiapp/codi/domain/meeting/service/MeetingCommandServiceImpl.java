@@ -28,7 +28,6 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
     public Meeting createMeeting(MeetingCreateRequestDTO request) {
         Team team = teamRepository.findById(request.teamId())
                 .orElseThrow(() -> new TeamHandler(ErrorStatus.TEAM_NOT_FOUND));
-
         Meeting meeting = MeetingConverter.toMeeting(request, team);
         return meetingRepository.save(meeting);
     }
@@ -39,28 +38,9 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
 
-        // 기본 정보 수정
-        meeting.update(request.title(), request.dateTime(), request.location());
-
-        // 기존 Agenda, Decision 삭제
-        meeting.getAgendas().clear();
-        meeting.getDecisions().clear();
-
-        // 새로운 Agenda 추가
-        request.agendas().forEach(agendaDTO -> {
-            Agenda agenda = Agenda.builder().title(agendaDTO.title()).build();
-            agendaDTO.details().forEach(detailContent -> {
-                AgendaDetail detail = AgendaDetail.builder().content(detailContent).build();
-                agenda.addDetail(detail);
-            });
-            meeting.addAgenda(agenda);
-        });
-
-        // 새로운 Decision 추가
-        request.decisions().forEach(content -> {
-            Decision decision = Decision.builder().content(content).build();
-            meeting.addDecision(decision);
-        });
+        request.title().ifPresent(meeting::setTitle);
+        request.dateTime().ifPresent(meeting::setDateTime);
+        request.location().ifPresent(meeting::setLocation);
 
         return meeting;
     }
@@ -69,7 +49,6 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
     public void deleteMeeting(Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
-
         meetingRepository.delete(meeting);
     }
 }

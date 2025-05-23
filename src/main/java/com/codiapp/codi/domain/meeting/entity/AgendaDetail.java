@@ -11,8 +11,7 @@ import lombok.*;
 public class AgendaDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agenda_detail_seq_gen")
-    @SequenceGenerator(name = "agenda_detail_seq_gen", sequenceName = "AGENDA_DETAIL_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
@@ -25,5 +24,9 @@ public class AgendaDetail {
 
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
