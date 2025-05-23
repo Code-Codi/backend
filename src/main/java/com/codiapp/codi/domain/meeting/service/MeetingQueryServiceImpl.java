@@ -19,7 +19,6 @@ public class MeetingQueryServiceImpl implements MeetingQueryService {
     public MeetingDetailResponseDTO getMeetingDetail(Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
-
         return MeetingConverter.toMeetingDetailResponseDTO(meeting);
     }
 }

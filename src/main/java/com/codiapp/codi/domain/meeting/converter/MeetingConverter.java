@@ -1,7 +1,9 @@
 package com.codiapp.codi.domain.meeting.converter;
 
 import com.codiapp.codi.domain.meeting.dto.request.MeetingCreateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.response.AgendaDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.AgendaResponseDTO;
+import com.codiapp.codi.domain.meeting.dto.response.DecisionResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.entity.*;
 import com.codiapp.codi.domain.team.entity.Team;
@@ -24,18 +26,26 @@ public class MeetingConverter {
     public static MeetingDetailResponseDTO toMeetingDetailResponseDTO(Meeting meeting) {
         List<AgendaResponseDTO> agendas = meeting.getAgendas().stream()
                 .map(agenda -> new AgendaResponseDTO(
+                        agenda.getId(),
                         agenda.getTitle(),
                         agenda.getDetails().stream()
-                                .map(AgendaDetail::getContent)
+                                .map(detail -> new AgendaDetailResponseDTO(
+                                        detail.getId(),
+                                        detail.getContent()
+                                ))
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
 
-        List<String> decisions = meeting.getDecisions().stream()
-                .map(Decision::getContent)
+        List<DecisionResponseDTO> decisions = meeting.getDecisions().stream()
+                .map(decision -> new DecisionResponseDTO(
+                        decision.getId(),
+                        decision.getContent()
+                ))
                 .collect(Collectors.toList());
 
         return new MeetingDetailResponseDTO(
+                meeting.getId(),
                 meeting.getTitle(),
                 meeting.getDateTime(),
                 meeting.getLocation(),
@@ -43,6 +53,7 @@ public class MeetingConverter {
                 decisions
         );
     }
+
 }
 
 
