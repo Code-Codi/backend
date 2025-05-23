@@ -23,8 +23,7 @@ import lombok.NoArgsConstructor;
 public class TaskDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_detail_seq_gen")
-    @SequenceGenerator(name = "task_detail_seq_gen", sequenceName = "TASK_DETAIL_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -40,8 +39,12 @@ public class TaskDetail {
         this.task = task;
     }
 
-    public void update(String title, String content) {
+    public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public void updateContent(String content) {
         this.content = content;
     }
+
 }

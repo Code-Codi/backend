@@ -9,6 +9,5 @@ public record TaskCreateRequestDTO(
         Long teamId,
         String title,
         TaskStatus status,
-        LocalDate taskDate,
-        List<TaskDetailCreateDTO> details
+        LocalDate taskDate
 ) {}
