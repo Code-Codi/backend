@@ -10,8 +10,7 @@ import lombok.*;
 @Builder
 public class Decision {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "decision_seq_gen")
-    @SequenceGenerator(name = "decision_seq_gen", sequenceName = "DECISION_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
@@ -24,5 +23,8 @@ public class Decision {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+    public void setContent(String content) {
+        this.content = content;
     }
 }
