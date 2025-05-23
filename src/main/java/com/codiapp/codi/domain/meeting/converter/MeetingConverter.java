@@ -5,6 +5,7 @@ import com.codiapp.codi.domain.meeting.dto.response.AgendaDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.AgendaResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.DecisionResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingDetailResponseDTO;
+import com.codiapp.codi.domain.meeting.dto.response.MeetingListResponseDTO;
 import com.codiapp.codi.domain.meeting.entity.*;
 import com.codiapp.codi.domain.team.entity.Team;
 
@@ -51,6 +52,15 @@ public class MeetingConverter {
                 meeting.getLocation(),
                 agendas,
                 decisions
+        );
+    }
+
+    public static MeetingListResponseDTO toMeetingListDTO(Meeting meeting) {
+        return new MeetingListResponseDTO(
+                meeting.getId(),
+                meeting.getTitle(),
+                meeting.getLocation(),
+                meeting.getDateTime()
         );
     }
 
