@@ -36,7 +36,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
 
-        TaskConverter.updateTask(task, request);
+        task.applyUpdate(request);
     }
 
     @Override

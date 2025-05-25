@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.task.entity;
 
+import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,7 +52,9 @@ public class Task {
         this.taskDate = taskDate;
     }
 
-    public void clearDetails() {
-        this.details.clear();
+    public void applyUpdate(TaskUpdateRequestDTO request) {
+        request.title().ifPresent(this::updateTitle);
+        request.status().ifPresent(this::updateStatus);
+        request.taskDate().ifPresent(this::updateTaskDate);
     }
 }
