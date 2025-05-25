@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.meeting.controller;
 import com.codiapp.codi.domain.meeting.dto.request.MeetingCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.MeetingUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingDetailResponseDTO;
+import com.codiapp.codi.domain.meeting.dto.response.MeetingListResponseDTO;
 import com.codiapp.codi.domain.meeting.entity.Meeting;
 import com.codiapp.codi.domain.meeting.service.MeetingCommandService;
 import com.codiapp.codi.domain.meeting.service.MeetingQueryService;
@@ -11,6 +12,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +57,16 @@ public class MeetingController {
     public ResponseEntity<ApiResponse<Void>> deleteMeeting(@PathVariable Long meetingId) {
         meetingCommandService.deleteMeeting(meetingId);
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<MeetingListResponseDTO>>> getMeetingList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dateTime").descending());
+        Page<MeetingListResponseDTO> result = meetingQueryService.getMeetingList(pageable);
+
+        return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }
 }
