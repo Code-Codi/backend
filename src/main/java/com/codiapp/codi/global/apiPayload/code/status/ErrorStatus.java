@@ -32,6 +32,11 @@ public enum ErrorStatus implements BaseErrorCode {
 	PROJECT_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4002", "프로젝트 이름은 필수입니다."),
 	PROJECT_TEAM_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4003", "팀 ID는 필수입니다."),
 
+    //로그인 관련 에러
+    USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "USER4011", "유저를 찾을 수 없습니다."),
+    PASSWORD_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "USER4012", "비밀번호가 일치하지 않습니다."),
+    EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "USER4091", "이미 가입된 이메일입니다.")
+
 	;
     private final HttpStatus httpStatus;
     private final String code;
