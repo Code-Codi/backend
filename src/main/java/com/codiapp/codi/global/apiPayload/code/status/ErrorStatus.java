@@ -23,12 +23,22 @@ public enum ErrorStatus implements BaseErrorCode {
     // 회의록 관련 에러
     MEETING_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEETING4001", "회의록이 없습니다."),
 
+
     //로그인 관련 에러
     USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "USER4011", "유저를 찾을 수 없습니다."),
     PASSWORD_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "USER4012", "비밀번호가 일치하지 않습니다."),
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "USER4091", "이미 가입된 이메일입니다."),
 
-	;
+    //과제 관련 에러
+    TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK4001", "과제가 없습니다."),
+    TASK_DETAIL_NOT_FOUND(HttpStatus.BAD_REQUEST,"TASKD4001", "해당 TaskDetail을 찾을 수 없습니다."),
+	  //프로젝트 관련 에러
+	  PROJECT_NOT_FOUND(HttpStatus.BAD_REQUEST, "PROJECT4001", "존재하지 않는 프로젝트입니다."),
+	  PROJECT_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PROJECT5001", "프로젝트 수정 중 오류가 발생했습니다."),
+	  PROJECT_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4002", "프로젝트 이름은 필수입니다."),
+	  PROJECT_TEAM_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4003", "팀 ID는 필수입니다."),
+	  ;
+
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;

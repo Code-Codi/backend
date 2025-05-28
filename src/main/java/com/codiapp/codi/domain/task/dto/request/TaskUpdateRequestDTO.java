@@ -4,10 +4,10 @@ import com.codiapp.codi.domain.task.entity.TaskStatus;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public record TaskUpdateRequestDTO(
-        String title,
-        TaskStatus status,
-        LocalDate taskDate,
-        List<TaskDetailUpdateDTO> details
+        Optional<String> title,
+        Optional<TaskStatus> status,
+        Optional<LocalDate> taskDate
 ) {}

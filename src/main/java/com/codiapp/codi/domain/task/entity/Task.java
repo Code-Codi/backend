@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.task.entity;
 
+import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,8 +17,7 @@ import java.util.List;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq_gen")
-    @SequenceGenerator(name = "task_seq_gen", sequenceName = "TASK_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,13 +40,21 @@ public class Task {
         detail.setTask(this);
     }
 
-    public void update(String title, TaskStatus status, LocalDate taskDate) {
+    public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public void updateStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public void updateTaskDate(LocalDate taskDate) {
         this.taskDate = taskDate;
     }
 
-    public void clearDetails() {
-        this.details.clear();
+    public void applyUpdate(TaskUpdateRequestDTO request) {
+        request.title().ifPresent(this::updateTitle);
+        request.status().ifPresent(this::updateStatus);
+        request.taskDate().ifPresent(this::updateTaskDate);
     }
 }
