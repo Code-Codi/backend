@@ -36,21 +36,17 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @Transactional
     public TeamCreateResponseDTO createTeam(TeamCreateRequestDTO requestDTO) {
-        // 1. 팀 저장
         Team team = Team.builder()
                 .name(requestDTO.name())
                 .build();
         teamRepository.save(team);
 
         Team savedTeam = teamRepository.save(team);
-        System.out.println("Saved team ID: " + savedTeam.getId());
-
-        List<UserTeam> userTeams = requestDTO.memberEmails().stream()
+       List<UserTeam> userTeams = requestDTO.memberEmails().stream()
             .map(email -> {
                 User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다: " + email));
-                System.out.println("Adding user: " + user.getUserName() + " to team " + savedTeam.getName());
-                return UserTeam.builder()
+                  return UserTeam.builder()
                     .team(savedTeam)
                     .user(user)
                     .build();
@@ -60,7 +56,6 @@ public class TeamServiceImpl implements TeamService {
         userTeamRepository.saveAll(userTeams);
 
 
-        // 3. 응답 반환
         return TeamConverter.toCreateResponseDTO(team);
     }
   
@@ -85,24 +80,18 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(teamId)
             .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
 
-        // 1. 이름 변경
         if (dto.name() != null && !dto.name().isBlank()) {
             team.updateName(dto.name());
         }
-
-        // 2. 멤버 변경
         if (dto.memberEmails() != null && !dto.memberEmails().isEmpty()) {
-            // 기존 연관관계 삭제
-            List<UserTeam> existing = userTeamRepository.findByTeamId(teamId);
+        	List<UserTeam> existing = userTeamRepository.findByTeamId(teamId);
             userTeamRepository.deleteAll(existing);
             userTeamRepository.flush();
-            // 새 멤버 등록
+            
             List<UserTeam> newUserTeams = dto.memberEmails().stream()
             	    .map(email -> {
-            	        System.out.println("🔁 처리 중인 이메일: " + email);
             	        User user = userRepository.findByEmail(email)
             	            .orElseThrow(() -> {
-            	                System.out.println("❌ 유저 없음: " + email);
             	                return new IllegalArgumentException("해당 유저 없음: " + email);
             	            });
 
@@ -113,7 +102,6 @@ public class TeamServiceImpl implements TeamService {
             	    })
             	    .collect(Collectors.toList());
 
-            	System.out.println("✅ 새로 등록할 userTeam 개수: " + newUserTeams.size());
             	userTeamRepository.saveAll(newUserTeams);
 
         }
