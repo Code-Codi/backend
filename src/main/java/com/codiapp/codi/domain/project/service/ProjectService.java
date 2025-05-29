@@ -1,12 +1,12 @@
-package com.codiapp.codi.domain.project.service.project;
+package com.codiapp.codi.domain.project.service;
 
 import java.util.List;
 
-import com.codiapp.codi.domain.project.entity.project.Project;
+import com.codiapp.codi.domain.project.entity.Project;
 
 public interface ProjectService {
 	
-	  List<Project> getAllProjects();
+	  List<Project> getProjectsByTeamId(Long teamId);
 	
 	  void createProject(Project project);
 

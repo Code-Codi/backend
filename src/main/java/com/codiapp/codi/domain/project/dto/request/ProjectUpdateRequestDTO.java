@@ -2,7 +2,7 @@ package com.codiapp.codi.domain.project.dto.request;
 
 import java.util.Date;
 
-import com.codiapp.codi.domain.project.entity.project.Status;
+import com.codiapp.codi.domain.project.entity.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Max;
@@ -37,5 +37,7 @@ public class ProjectUpdateRequestDTO {
 	    private Status status;
 
 	    private String manager;
+	    
+	    Long teamId;
 	
 }

@@ -2,9 +2,9 @@ package com.codiapp.codi.domain.project.dto.request;
 
 import java.util.Date;
 
+import com.codiapp.codi.domain.project.entity.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.codiapp.codi.domain.project.entity.project.Status;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
