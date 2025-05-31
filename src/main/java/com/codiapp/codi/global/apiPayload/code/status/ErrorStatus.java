@@ -37,6 +37,18 @@ public enum ErrorStatus implements BaseErrorCode {
 	  PROJECT_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PROJECT5001", "프로젝트 수정 중 오류가 발생했습니다."),
 	  PROJECT_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4002", "프로젝트 이름은 필수입니다."),
 	  PROJECT_TEAM_REQUIRED(HttpStatus.BAD_REQUEST, "PROJECT4003", "팀 ID는 필수입니다."),
+
+       // 게시글 관련 에러
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시글입니다."),
+    POST_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "POST5001", "게시글 생성 중 오류가 발생했습니다."),
+    POST_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "POST5002", "게시글 수정 중 오류가 발생했습니다."),
+    POST_DELETE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "POST5003", "게시글 삭제 중 오류가 발생했습니다."),
+
+    // 댓글 관련 에러
+    COMMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "COMMENT4001", "존재하지 않는 댓글입니다."),
+    COMMENT_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5001", "댓글 생성 중 오류가 발생했습니다."),
+    COMMENT_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5002", "댓글 수정 중 오류가 발생했습니다."),
+    COMMENT_DELETE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5003", "댓글 삭제 중 오류가 발생했습니다."),
 	  ;
 
     private final HttpStatus httpStatus;
