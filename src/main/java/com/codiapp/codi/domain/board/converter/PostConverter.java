@@ -50,6 +50,7 @@ public class PostConverter {
             .visitors(post.getVisitors())
             .favorites(post.getFavorites())
             .createdAt(post.getCreatedAt())
+            .thumbnail(post.getThumbnailUrl())
             .build();
 }
 }
