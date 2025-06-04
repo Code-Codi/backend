@@ -16,4 +16,5 @@ public class PostSimpleResponseDTO {
     private int visitors;
     private int favorites;
     private LocalDateTime createdAt;
+    private String thumbnail;
 }
