@@ -1,6 +1,9 @@
 package com.codiapp.codi.domain.board.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -57,10 +60,24 @@ public class PostService {
     }
 
     public Long create(PostCreateRequestDTO postDto, MultipartFile imageFile) {
-    // 이미지 업로드 처리
     String imageUrl = null;
     if (imageFile != null && !imageFile.isEmpty()) {
-        imageUrl = "/uploads/" + imageFile.getOriginalFilename(); 
+        try {
+            // 절대 경로 지정
+            String uploadDir = System.getProperty("user.dir") + "/uploads";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();  // 디렉토리 없으면 생성
+            }
+
+            String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+            File dest = new File(dir, fileName);
+            imageFile.transferTo(dest);
+
+            imageUrl = "/uploads/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 저장 실패", e);
+        }
     }
 
     PostCreateRequestDTO updatedDto = PostCreateRequestDTO.builder()
