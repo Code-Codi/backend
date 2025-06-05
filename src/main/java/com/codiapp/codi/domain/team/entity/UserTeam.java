@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.codiapp.codi.domain.login.entity.User;
 
 @Entity
 @Table(name = "users_team")

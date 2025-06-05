@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codiapp.codi.domain.login.dto.request.LoginRequestDTO;
 import com.codiapp.codi.domain.login.dto.request.SignupRequestDTO;
 import com.codiapp.codi.domain.login.dto.response.LoginResponseDTO;
+import com.codiapp.codi.domain.login.entity.User;
+import com.codiapp.codi.domain.login.repository.UserRepository;
 import com.codiapp.codi.domain.login.service.UserService;
+import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
+import com.codiapp.codi.global.apiPayload.code.status.SuccessStatus;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,6 +21,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,9 +32,12 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService, UserRepository userRepository){
         this.userService = userService;
+        this.userRepository = userRepository;
     }
+    
+    private final UserRepository userRepository;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponseDTO>> login(@RequestBody LoginRequestDTO request, HttpSession session) {
@@ -66,5 +74,18 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.onSuccess("회원가입 성공"));
+    }
+    
+    //Team워크스페이스 기능에 사용되는 유저 이메일 조회 메서드 
+    @GetMapping("/email/{email}")
+    public ApiResponse<UserNameResponseDTO> findByEmail(@PathVariable("email") String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 유저가 없습니다: " + email));
+
+        return ApiResponse.of(SuccessStatus._OK,
+                UserNameResponseDTO.builder()
+                    .email(user.getEmail())
+                    .userName(user.getUsername())
+                    .build());
     }
 }

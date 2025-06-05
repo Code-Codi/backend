@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codiapp.codi.domain.team.entity.User;
-import com.codiapp.codi.domain.team.repository.UserRepository;
+import com.codiapp.codi.domain.login.entity.User;
+import com.codiapp.codi.domain.login.repository.UserRepository;
 import com.codiapp.codi.domain.team.converter.TeamConverter;
 import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
 import com.codiapp.codi.domain.team.dto.request.TeamUpdateRequestDTO;
@@ -70,7 +70,7 @@ public class TeamServiceImpl implements TeamService {
     public List<String> getUserNamesByTeamId(Long teamId) {
         List<UserTeam> userTeams = userTeamRepository.findByTeamId(teamId);
         return userTeams.stream()
-            .map(userTeam -> userTeam.getUser().getUserName())
+            .map((UserTeam ut) -> ut.getUser().getUsername())
             .collect(Collectors.toList());
     }
 
@@ -80,15 +80,15 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(teamId)
             .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
 
-        if (dto.name() != null && !dto.name().isBlank()) {
-            team.updateName(dto.name());
+        if (dto.getName() != null && !dto.getName().isBlank()) {
+            team.updateName(dto.getName());
         }
-        if (dto.memberEmails() != null && !dto.memberEmails().isEmpty()) {
+        if (dto.getMemberEmails() != null && !dto.getMemberEmails().isEmpty()) {
         	List<UserTeam> existing = userTeamRepository.findByTeamId(teamId);
             userTeamRepository.deleteAll(existing);
             userTeamRepository.flush();
             
-            List<UserTeam> newUserTeams = dto.memberEmails().stream()
+            List<UserTeam> newUserTeams = dto.getMemberEmails().stream()
             	    .map(email -> {
             	        User user = userRepository.findByEmail(email)
             	            .orElseThrow(() -> {
@@ -126,7 +126,7 @@ public class TeamServiceImpl implements TeamService {
         return userTeams.stream()
             .map(ut -> UserNameResponseDTO.builder()
                 .email(ut.getUser().getEmail())
-                .userName(ut.getUser().getUserName())
+                .userName(ut.getUser().getUsername())
                 .build())
             .collect(Collectors.toList());
     }
