@@ -59,12 +59,13 @@ public class ScheduleController {
     }
 
     @Operation(summary = "스케줄 목록 조회", description = "선택한 연도와 월에 해당하는 스케줄 목록을 조회합니다.")
-    @GetMapping("")
+    @GetMapping("/team/{teamId}")
     @Parameters({
+            @Parameter(name = "teamId", description = "팀 ID"),
             @Parameter(name = "year", description = "조회할 연도"),
             @Parameter(name = "month", description = "조회할 월")
     })
-    public ApiResponse<List<ScheduleDetailResponseDTO>> getSchedulesByMonthAndYear(@RequestParam int year, @RequestParam int month) {
-        return ApiResponse.onSuccess(scheduleQueryService.getSchedulesByMonthAndYear(year, month));
+    public ApiResponse<List<ScheduleDetailResponseDTO>> getSchedulesByMonthAndYear(@PathVariable Long teamId, @RequestParam int year, @RequestParam int month) {
+        return ApiResponse.onSuccess(scheduleQueryService.getSchedulesByMonthAndYearAndTeam(teamId, year, month));
     }
 }

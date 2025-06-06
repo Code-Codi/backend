@@ -17,7 +17,7 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 50, nullable = false)
     private String title;
 
     @JoinColumn(name = "start_date")
@@ -26,7 +26,7 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "end_date")
     private LocalDateTime endDate;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 100, nullable = false)
     private String content;
 
     @ManyToOne
