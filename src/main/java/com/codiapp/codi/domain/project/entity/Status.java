@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.project.entity.project;
+package com.codiapp.codi.domain.project.entity;
 
 public enum Status {
 	

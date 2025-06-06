@@ -3,7 +3,7 @@ package com.codiapp.codi.domain.project.dto.response;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import com.codiapp.codi.domain.project.entity.project.Status;
+import com.codiapp.codi.domain.project.entity.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;

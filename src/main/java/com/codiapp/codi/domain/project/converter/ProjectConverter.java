@@ -9,7 +9,7 @@ import com.codiapp.codi.domain.project.dto.request.ProjectUpdateRequestDTO;
 import com.codiapp.codi.domain.project.dto.response.ProjectCreateResponseDTO;
 import com.codiapp.codi.domain.project.dto.response.ProjectReadResponseDTO;
 import com.codiapp.codi.domain.project.dto.response.ProjectUpdateResponseDTO;
-import com.codiapp.codi.domain.project.entity.project.Project;
+import com.codiapp.codi.domain.project.entity.Project;
 
 public class ProjectConverter {
 
@@ -73,6 +73,7 @@ public class ProjectConverter {
 	        project.setPriority(dto.getPriority());
 	        project.setStatus(dto.getStatus());
 	        project.setManager(dto.getManager());
+	        project.setTeamId(dto.getTeamId());
 	        return project;
 	    }
 

@@ -1,13 +1,14 @@
-package com.codiapp.codi.domain.project.service.project;
+package com.codiapp.codi.domain.project.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.codiapp.codi.domain.project.entity.project.Project;
 import com.codiapp.codi.global.apiPayload.exception.handler.ProjectHandler;
-import com.codiapp.codi.domain.project.repository.project.ProjectRepository;
+import com.codiapp.codi.domain.project.entity.Project;
+import com.codiapp.codi.domain.project.repository.ProjectRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 
 @Service
@@ -17,9 +18,11 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository projectRepository;
 
     @Override
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<Project> getProjectsByTeamId(Long teamId) {
+        return projectRepository.findByTeamId(teamId);
     }
+
 
     @Override
     public void createProject(Project project) {
