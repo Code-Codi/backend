@@ -61,11 +61,12 @@ public class MeetingController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<MeetingListResponseDTO>>> getMeetingList(
+            @RequestParam Long teamId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("dateTime").descending());
-        Page<MeetingListResponseDTO> result = meetingQueryService.getMeetingList(pageable);
+        Page<MeetingListResponseDTO> result = meetingQueryService.getMeetingList(teamId, pageable);
 
         return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }

@@ -26,8 +26,8 @@ public class MeetingQueryServiceImpl implements MeetingQueryService {
     }
 
     @Override
-    public Page<MeetingListResponseDTO> getMeetingList(Pageable pageable) {
-        return meetingRepository.findAll(pageable)
+    public Page<MeetingListResponseDTO> getMeetingList(Long teamId, Pageable pageable) {
+        return meetingRepository.findAllByTeamId(teamId, pageable)
                 .map(MeetingConverter::toMeetingListDTO);
     }
 }
