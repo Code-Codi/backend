@@ -22,8 +22,8 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
     }
 
     @Override
-    public List<ScheduleDetailResponseDTO> getSchedulesByMonthAndYear(int year, int month) {
-        List<Schedule> scheduleList = scheduleRepository.findSchedulesByMonthAndYear(month, year);
+    public List<ScheduleDetailResponseDTO> getSchedulesByMonthAndYearAndTeam(Long teamId, int year, int month) {
+        List<Schedule> scheduleList = scheduleRepository.findSchedulesByMonthAndYearAndTeam(teamId, month, year);
         return scheduleList.stream().map(ScheduleConverter::toScheduleDetailResponseDTO).toList();
     }
 }
