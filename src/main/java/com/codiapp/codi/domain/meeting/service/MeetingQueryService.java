@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface MeetingQueryService {
     MeetingDetailResponseDTO getMeetingDetail(Long meetingId);
-    public Page<MeetingListResponseDTO> getMeetingList(Pageable pageable);
+    public Page<MeetingListResponseDTO> getMeetingList(Long teamId,Pageable pageable);
 }

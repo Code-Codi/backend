@@ -17,6 +17,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 @Service
 @RequiredArgsConstructor
 public class MeetingCommandServiceImpl implements MeetingCommandService {
@@ -38,9 +41,19 @@ public class MeetingCommandServiceImpl implements MeetingCommandService {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
 
-        request.title().ifPresent(meeting::setTitle);
-        request.dateTime().ifPresent(meeting::setDateTime);
-        request.location().ifPresent(meeting::setLocation);
+        if (request.title() != null && !request.title().isBlank()) {
+            meeting.setTitle(request.title());
+        }
+        if (request.dateTime() != null && !request.dateTime().isBlank()) {
+            try {
+                meeting.setDateTime(LocalDateTime.parse(request.dateTime()));
+            } catch (DateTimeParseException e) {
+                throw new MeetingHandler(ErrorStatus.INVALID_DATE_FORMAT); // 예외 커스텀 정의 필요
+            }
+        }
+        if (request.location() != null && !request.location().isBlank()) {
+            meeting.setLocation(request.location());
+        }
 
         return meeting;
     }
