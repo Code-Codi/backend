@@ -45,12 +45,15 @@ public class MeetingController {
     }
     @PatchMapping("/{meetingId}")
     @Operation(summary = "회의록 단일 수정", description = "회의록 ID를 이용해 회의록 상세 내용을 수정합니다.")
-    public ResponseEntity<ApiResponse<Meeting>> updateMeeting(
+    public ResponseEntity<ApiResponse<MeetingDetailResponseDTO>> updateMeeting(
             @PathVariable Long meetingId,
             @RequestBody MeetingUpdateRequestDTO request
     ) {
         Meeting updated = meetingCommandService.updateMeeting(meetingId, request);
-        return ResponseEntity.ok(ApiResponse.onSuccess(updated));
+        // Meeting -> DTO 변환 (조회 로직 재사용)
+        MeetingDetailResponseDTO dto = meetingQueryService.getMeetingDetail(updated.getId());
+
+        return ResponseEntity.ok(ApiResponse.onSuccess(dto));
     }
     @DeleteMapping("/{meetingId}")
     @Operation(summary = "회의록 단일 삭제", description = "회의록 ID를 이용해 회의록 상세 내용을 삭제합니다.")

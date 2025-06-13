@@ -22,6 +22,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 회의록 관련 에러
     MEETING_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEETING4001", "회의록이 없습니다."),
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "MEETING4002", "잘못된 날짜 형식입니다."),
 
 
     //로그인 관련 에러
