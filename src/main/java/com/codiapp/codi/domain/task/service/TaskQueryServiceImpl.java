@@ -29,8 +29,8 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     }
 
     @Override
-    public Page<TaskListResponseDTO> getAllTasks(Pageable pageable) {
-        return taskRepository.findAll(pageable)
+    public Page<TaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable) {
+        return taskRepository.findAllByTeamId(teamId, pageable)
                 .map(TaskConverter::toTaskListResponseDTO);
     }
 }
