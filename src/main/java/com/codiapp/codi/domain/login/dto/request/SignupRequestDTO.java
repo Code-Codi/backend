@@ -2,6 +2,7 @@ package com.codiapp.codi.domain.login.dto.request;
 
 import java.time.LocalDate;
 
+import com.codiapp.codi.domain.login.entity.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +28,6 @@ public class SignupRequestDTO {
     @Past
     private LocalDate birthDate;
 
+    @NotNull(message = "역할을 선택해주세요.")
+    private UserRole role;
 }
