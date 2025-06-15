@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.login.entity;
+package com.codiapp.codi.domain.user.entity;
 
 import java.time.LocalDate;
 
@@ -26,7 +26,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "USER_SEQ", allocationSize = 1)

@@ -1,11 +1,11 @@
-package com.codiapp.codi.domain.login.service;
+package com.codiapp.codi.domain.user.service;
 
-import com.codiapp.codi.domain.login.converter.UserConverter;
-import com.codiapp.codi.domain.login.dto.request.LoginRequestDTO;
-import com.codiapp.codi.domain.login.dto.request.SignupRequestDTO;
-import com.codiapp.codi.domain.login.dto.response.LoginResponseDTO;
-import com.codiapp.codi.domain.login.entity.User;
-import com.codiapp.codi.domain.login.repository.UserRepository;
+import com.codiapp.codi.domain.user.converter.UserConverter;
+import com.codiapp.codi.domain.user.dto.request.LoginRequestDTO;
+import com.codiapp.codi.domain.user.dto.request.SignupRequestDTO;
+import com.codiapp.codi.domain.user.dto.response.LoginResponseDTO;
+import com.codiapp.codi.domain.user.entity.User;
+import com.codiapp.codi.domain.user.repository.UserRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 import com.codiapp.codi.global.apiPayload.exception.handler.UserHandler;
 

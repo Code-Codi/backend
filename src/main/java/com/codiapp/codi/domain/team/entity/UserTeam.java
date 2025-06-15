@@ -1,9 +1,7 @@
 package com.codiapp.codi.domain.team.entity;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
-import com.codiapp.codi.domain.login.entity.User;
+import com.codiapp.codi.domain.user.entity.User;
 
 @Entity
 @Table(name = "users_team")
@@ -12,7 +10,6 @@ import com.codiapp.codi.domain.login.entity.User;
 @AllArgsConstructor
 @Builder
 public class UserTeam {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

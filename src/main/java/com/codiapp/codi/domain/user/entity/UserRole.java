@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.login.entity;
+package com.codiapp.codi.domain.user.entity;
 
 public enum UserRole {
     STUDENT,

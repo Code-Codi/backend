@@ -1,8 +1,8 @@
-package com.codiapp.codi.domain.login.dto.request;
+package com.codiapp.codi.domain.user.dto.request;
 
 import java.time.LocalDate;
 
-import com.codiapp.codi.domain.login.entity.UserRole;
+import com.codiapp.codi.domain.user.entity.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
