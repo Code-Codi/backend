@@ -17,37 +17,44 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/**",
-                    "/users/signup",
-                    "/users/login",
-                    "/test/**",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**",
-                    "/v3/api-docs",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html",
-                    "/webjars/**",
-                    "/post/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((request, response, authException) -> {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setContentType("application/json;charset=UTF-8");
-                    response.getWriter().write("{\"error\": \"인증이 필요합니다.\"}");
-                })
-            )
-            .httpBasic(Customizer.withDefaults()) 
-            .formLogin(form -> form.disable());  
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/**",
+                                "/users/signup",
+                                "/users/login",
+                                "/test/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/swagger-resources/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/post/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json;charset=UTF-8");
+                            response.getWriter().write("{\"error\": \"인증이 필요합니다.\"}");
+                        })
+                )
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(form -> form.disable())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("{\"message\": \"로그아웃 완료\"}");
+                            response.getWriter().flush();
+                        })
+                );
 
         return http.build();
     }
