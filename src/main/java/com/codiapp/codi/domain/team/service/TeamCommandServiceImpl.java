@@ -3,11 +3,17 @@ package com.codiapp.codi.domain.team.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.codiapp.codi.domain.course.entity.Course;
+import com.codiapp.codi.domain.course.repository.CourseRepository;
+import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
+import com.codiapp.codi.global.apiPayload.exception.handler.CourseHandler;
+import com.codiapp.codi.global.apiPayload.exception.handler.TeamHandler;
+import com.codiapp.codi.global.apiPayload.exception.handler.UserHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codiapp.codi.domain.login.entity.User;
-import com.codiapp.codi.domain.login.repository.UserRepository;
+import com.codiapp.codi.domain.user.entity.User;
+import com.codiapp.codi.domain.user.repository.UserRepository;
 import com.codiapp.codi.domain.team.converter.TeamConverter;
 import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
 import com.codiapp.codi.domain.team.dto.request.TeamUpdateRequestDTO;
@@ -21,57 +27,37 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TeamServiceImpl implements TeamService {
-
+public class TeamCommandServiceImpl implements TeamCommandService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final UserTeamRepository userTeamRepository;
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Team> getAllTeamLists() {
-        return teamRepository.findAll();
-    }
+    private final CourseRepository courseRepository;
 
     @Override
     @Transactional
     public TeamCreateResponseDTO createTeam(TeamCreateRequestDTO requestDTO) {
-        Team team = Team.builder()
-                .name(requestDTO.name())
-                .build();
+        Course course = courseRepository.findById(requestDTO.courseId())
+                .orElseThrow(() -> new CourseHandler(ErrorStatus.COURSE_NOT_FOUND));
+
+        // 팀 멤버가 이미 해당 수업의 팀에 속했는지 검사
+        List<User> teamMembers = requestDTO.memberEmails().stream()
+                .map(email -> {
+                    User user = userRepository.findByEmail(email)
+                            .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+                    if (userTeamRepository.existsByUserAndTeam_Course(user, course)) {
+                        throw new TeamHandler(ErrorStatus.USER_ALREADY_IN_COURSE);
+                    }
+                    return user;
+                }).toList();
+
+        Team team = TeamConverter.toTeam(requestDTO, course);
         teamRepository.save(team);
 
-        Team savedTeam = teamRepository.save(team);
-       List<UserTeam> userTeams = requestDTO.memberEmails().stream()
-            .map(email -> {
-                User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다: " + email));
-                  return UserTeam.builder()
-                    .team(savedTeam)
-                    .user(user)
-                    .build();
-            })
-            .collect(Collectors.toList());
+       List<UserTeam> userTeams = teamMembers.stream()
+            .map(teamMember -> TeamConverter.toUserTeam(teamMember, team)).toList();
 
         userTeamRepository.saveAll(userTeams);
-
-
         return TeamConverter.toCreateResponseDTO(team);
-    }
-  
-    @Override
-    @Transactional(readOnly = true)
-    public List<Team> getTeamsByUserId(Long userId) {
-        return userTeamRepository.findTeamsByUserId(userId); // 바로 Team 목록 반환
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<String> getUserNamesByTeamId(Long teamId) {
-        List<UserTeam> userTeams = userTeamRepository.findByTeamId(teamId);
-        return userTeams.stream()
-            .map((UserTeam ut) -> ut.getUser().getUsername())
-            .collect(Collectors.toList());
     }
 
     @Override
@@ -117,18 +103,6 @@ public class TeamServiceImpl implements TeamService {
             .orElseThrow(() -> new IllegalArgumentException("해당 팀에 속한 유저가 아님"));
 
         userTeamRepository.delete(toRemove);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserNameResponseDTO> getUserInfosByTeamId(Long teamId) {
-        List<UserTeam> userTeams = userTeamRepository.findByTeamId(teamId);
-        return userTeams.stream()
-            .map(ut -> UserNameResponseDTO.builder()
-                .email(ut.getUser().getEmail())
-                .userName(ut.getUser().getUsername())
-                .build())
-            .collect(Collectors.toList());
     }
 
 }

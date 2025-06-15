@@ -1,9 +1,12 @@
 package com.codiapp.codi.domain.team.converter;
 
+import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamCreateResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
+import com.codiapp.codi.domain.team.entity.UserTeam;
+import com.codiapp.codi.domain.user.entity.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +26,16 @@ public class TeamConverter {
                 .collect(Collectors.toList());
     }
 	    
-    public static Team toEntityForCreate(TeamCreateRequestDTO request) {
+    public static Team toTeam(TeamCreateRequestDTO request, Course course) {
         return Team.builder()
+                .course(course)
                 .name(request.name())
+                .build();
+    }
+    public static UserTeam toUserTeam(User user, Team team) {
+        return UserTeam.builder()
+                .user(user)
+                .team(team)
                 .build();
     }
 
@@ -35,6 +45,4 @@ public class TeamConverter {
                 .name(team.getName())
                 .build();
     }
-
-   
 }
