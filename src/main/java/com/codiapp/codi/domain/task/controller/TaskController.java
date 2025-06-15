@@ -41,10 +41,11 @@ public class TaskController {
     @GetMapping
     @Operation(summary = "전체 과제 리스트 조회")
     public ResponseEntity<Page<TaskListResponseDTO>> getAllTasks(
+            @RequestParam Long teamId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<TaskListResponseDTO> response = taskQueryService.getAllTasks(pageable);
+        Page<TaskListResponseDTO> response = taskQueryService.getAllTasks(teamId, pageable);
         return ResponseEntity.ok(response);
     }
 

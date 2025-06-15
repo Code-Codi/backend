@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface TaskQueryService {
     TaskResponseDTO getTask(Long taskId);
-    Page<TaskListResponseDTO> getAllTasks(Pageable pageable);
+    Page<TaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable);
 }
