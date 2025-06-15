@@ -15,6 +15,7 @@ public class UserConverter {
         .password(encodedPassword)
         .username(dto.getUsername())
         .birthDate(dto.getBirthDate())
+        .role(dto.getRole())
         .status("ACTIVE") 
         .build();
 }
