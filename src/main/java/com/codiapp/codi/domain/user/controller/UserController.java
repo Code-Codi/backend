@@ -1,14 +1,14 @@
-package com.codiapp.codi.domain.login.controller;
+package com.codiapp.codi.domain.user.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codiapp.codi.domain.login.dto.request.LoginRequestDTO;
-import com.codiapp.codi.domain.login.dto.request.SignupRequestDTO;
-import com.codiapp.codi.domain.login.dto.response.LoginResponseDTO;
-import com.codiapp.codi.domain.login.entity.User;
-import com.codiapp.codi.domain.login.repository.UserRepository;
-import com.codiapp.codi.domain.login.service.UserService;
+import com.codiapp.codi.domain.user.dto.request.LoginRequestDTO;
+import com.codiapp.codi.domain.user.dto.request.SignupRequestDTO;
+import com.codiapp.codi.domain.user.dto.response.LoginResponseDTO;
+import com.codiapp.codi.domain.user.entity.User;
+import com.codiapp.codi.domain.user.repository.UserRepository;
+import com.codiapp.codi.domain.user.service.UserService;
 import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
 import com.codiapp.codi.global.apiPayload.code.status.SuccessStatus;

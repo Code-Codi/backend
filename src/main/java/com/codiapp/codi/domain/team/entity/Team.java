@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.team.entity;
 
+import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.schedule.entity.Schedule;
 import com.codiapp.codi.global.common.BaseEntity;
 
@@ -22,11 +23,14 @@ public class Team extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public void updateName(String name) {
     	this.name = name;
     }
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
-    
-    
 }

@@ -50,6 +50,10 @@ public enum ErrorStatus implements BaseErrorCode {
     COMMENT_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5001", "댓글 생성 중 오류가 발생했습니다."),
     COMMENT_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5002", "댓글 수정 중 오류가 발생했습니다."),
     COMMENT_DELETE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "COMMENT5003", "댓글 삭제 중 오류가 발생했습니다."),
+
+    // 수업 관련 에러
+    COURSE_NOT_FOUND(HttpStatus.BAD_REQUEST, "COURSE4001", "존재하지 않는 강의입니다."),
+    USER_ALREADY_IN_COURSE(HttpStatus.BAD_REQUEST, "COURSE4002", "사용자가 해당 수업의 팀에 이미 포함되어 있습니다."),
 	  ;
 
     private final HttpStatus httpStatus;
