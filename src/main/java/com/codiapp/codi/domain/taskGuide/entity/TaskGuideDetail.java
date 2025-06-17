@@ -31,7 +31,7 @@ public class TaskGuideDetail {
     @JoinColumn(name="task_guide_id")
     private TaskGuide taskGuide;
 
-    private String Title;
+    private String title;
 
     private String description;
 
