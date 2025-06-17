@@ -11,7 +11,7 @@ public class TaskGuideConverter {
 
     public static TaskGuideResponseDTO toTaskGuideResponeDTO(TaskGuide taskGuide) {
         List<TaskGuideDetailResponseDTO> detailDTOs = taskGuide.getDetails().stream()
-                .map(d-> new TaskGuideDetailResponseDTO(d.getId(), d.getDetailTitle(), d.getDescription()))
+                .map(d-> new TaskGuideDetailResponseDTO(d.getId(), d.getTitle(), d.getDescription()))
                 .collect(Collectors.toList());
 
         return new TaskGuideResponseDTO(
