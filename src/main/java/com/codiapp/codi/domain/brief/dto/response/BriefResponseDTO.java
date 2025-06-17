@@ -1,13 +1,13 @@
-package com.codiapp.codi.domain.taskGuide.dto.response;
+package com.codiapp.codi.domain.brief.dto.response;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record TaskGuideResponseDTO(
+public record BriefResponseDTO(
         Long id,
         String title,
         LocalDateTime dueDate,
         LocalDateTime createAt,
-        List<TaskGuideDetailResponseDTO> details
+        List<BriefDetailResponseDTO> details
 ) {}

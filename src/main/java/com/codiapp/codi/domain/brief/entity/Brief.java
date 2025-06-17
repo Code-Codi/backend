@@ -1,4 +1,4 @@
-package com.codiapp.codi.domain.taskGuide.entity;
+package com.codiapp.codi.domain.brief.entity;
 
 import com.codiapp.codi.domain.user.entity.User;
 import jakarta.persistence.Column;
@@ -27,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class TaskGuide {
+public class Brief {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +44,7 @@ public class TaskGuide {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "taskGuide", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TaskGuideDetail> details = new ArrayList<>();
+    @OneToMany(mappedBy = "brief", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BriefDetail> details = new ArrayList<>();
 
 }
