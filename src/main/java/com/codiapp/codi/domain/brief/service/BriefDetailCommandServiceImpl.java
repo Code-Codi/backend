@@ -7,7 +7,7 @@ import com.codiapp.codi.domain.brief.entity.BriefDetail;
 import com.codiapp.codi.domain.brief.repository.BriefDetailRepository;
 import com.codiapp.codi.domain.brief.repository.BriefRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
-import com.codiapp.codi.global.apiPayload.exception.handler.TaskGuideHandler;
+import com.codiapp.codi.global.apiPayload.exception.handler.BriefHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class BriefDetailCommandServiceImpl implements BriefDetailCommandService 
 
     public @Override Long createBriefDetail(BriefDetailCreateRequestDTO request) {
         Brief brief = briefRepository.findById(request.briefId())
-                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TASK_GUIDE_NOT_FOUND));
+                .orElseThrow(() -> new BriefHandler(ErrorStatus.BRIEF_NOT_FOUND));
 
         BriefDetail detail = BriefConverter.toTaskGuideDetail(request, brief);
         return briefDetailRepository.save(detail).getId();
