@@ -1,11 +1,17 @@
 package com.codiapp.codi.domain.task.controller;
 
+import com.codiapp.codi.domain.task.dto.request.FinalTaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTeamListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
+import com.codiapp.codi.domain.task.entity.TaskStatus;
 import com.codiapp.codi.domain.task.service.TaskCommandService;
 import com.codiapp.codi.domain.task.service.TaskQueryService;
+import com.codiapp.codi.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/tasks")
@@ -39,13 +46,13 @@ public class TaskController {
     }
 
     @GetMapping
-    @Operation(summary = "전체 과제 리스트 조회")
-    public ResponseEntity<Page<TaskListResponseDTO>> getAllTasks(
+    @Operation(summary = "최종 전체 과제 리스트 조회")
+    public ResponseEntity<Page<FinalTaskListResponseDTO>> getAllTasks(
             @RequestParam Long teamId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<TaskListResponseDTO> response = taskQueryService.getAllTasks(teamId, pageable);
+        Page<FinalTaskListResponseDTO> response = taskQueryService.getAllTasks(teamId, pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -61,5 +68,41 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
         taskCommandService.deleteTask(taskId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/final/{taskId}")
+    @Operation(summary = "최종 과제 조회")
+    public ApiResponse<FinalTaskResponseDTO> getFinalTask(@PathVariable Long taskId) {
+        return ApiResponse.onSuccess(taskQueryService.getFinalTask(taskId));
+    }
+
+    @PatchMapping("/final/{taskId}")
+    @Operation(summary = "최종 과제 수정")
+    public ApiResponse<Void> updateFinalTask(
+            @PathVariable Long taskId,
+            @RequestBody FinalTaskUpdateRequestDTO dto
+    ) {
+        taskCommandService.updateFinalTask(taskId, dto);
+        return ApiResponse.onSuccess(null);
+    }
+
+    @PatchMapping("/{taskId}/status")
+    public ResponseEntity<Void> toggleTaskStatus(@PathVariable Long taskId) {
+        taskCommandService.toggleTaskStatus(taskId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/teamTasks")
+    public ResponseEntity<ApiResponse<Page<FinalTeamListResponseDTO>>> getTeamTasksByStatus(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam Long courseId,
+            @RequestParam Long teamId,
+            @RequestParam TaskStatus status
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FinalTeamListResponseDTO> response =
+                taskQueryService.getTeamTasksByStatus(courseId, teamId, status, pageable);
+        return ResponseEntity.ok(ApiResponse.onSuccess(response));
     }
 }

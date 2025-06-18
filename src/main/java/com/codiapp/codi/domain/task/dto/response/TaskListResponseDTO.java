@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public record TaskListResponseDTO(
         Long id,
-        String title,
         TaskStatus status,
         LocalDate taskDate
 ) {}

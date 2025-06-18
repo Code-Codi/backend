@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public record TaskUpdateRequestDTO(
-        Optional<String> title,
         Optional<TaskStatus> status,
         Optional<LocalDate> taskDate
 ) {}

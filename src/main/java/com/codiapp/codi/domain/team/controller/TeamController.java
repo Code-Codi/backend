@@ -2,8 +2,10 @@ package com.codiapp.codi.domain.team.controller;
 
 import java.util.List;
 
+import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
 import com.codiapp.codi.domain.team.service.TeamCommandService;
 import com.codiapp.codi.domain.team.service.TeamQueryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codiapp.codi.domain.team.converter.TeamConverter;
@@ -72,4 +75,13 @@ public class TeamController {
         teamCommandService.leaveTeam(teamId, userId);
         return ApiResponse.of(SuccessStatus._OK, null);
     }
+
+    @GetMapping("/teams/course")
+    public ResponseEntity<ApiResponse<List<TeamInfoResponseDTO>>> getTeamsByCourse(
+            @RequestParam Long courseId
+    ) {
+        List<TeamInfoResponseDTO> response = teamQueryService.getTeamsByCourse(courseId);
+        return ResponseEntity.ok(ApiResponse.onSuccess(response));
+    }
+
 }

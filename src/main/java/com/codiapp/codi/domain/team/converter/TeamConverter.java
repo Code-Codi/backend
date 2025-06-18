@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.team.converter;
 import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamCreateResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.domain.team.entity.UserTeam;
@@ -44,5 +45,9 @@ public class TeamConverter {
                 .id(team.getId())
                 .name(team.getName())
                 .build();
+    }
+
+    public static TeamInfoResponseDTO toTeamInfoResponseDTO(Team team) {
+        return new TeamInfoResponseDTO(team.getId(), team.getName());
     }
 }

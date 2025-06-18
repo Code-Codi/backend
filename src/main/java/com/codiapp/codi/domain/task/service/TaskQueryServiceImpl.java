@@ -1,8 +1,12 @@
 package com.codiapp.codi.domain.task.service;
 
 import com.codiapp.codi.domain.task.converter.TaskConverter;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTeamListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
+import com.codiapp.codi.domain.task.entity.TaskStatus;
 import com.codiapp.codi.domain.task.repository.TaskRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 import com.codiapp.codi.global.apiPayload.exception.handler.TaskHandler;
@@ -29,8 +33,21 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     }
 
     @Override
-    public Page<TaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable) {
+    public Page<FinalTaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable) {
         return taskRepository.findAllByTeamId(teamId, pageable)
-                .map(TaskConverter::toTaskListResponseDTO);
+                .map(TaskConverter::toFinalTaskListResponseDTO);
+    }
+
+    @Override
+    public FinalTaskResponseDTO getFinalTask(Long taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
+        return TaskConverter.toFinalTaskResponseDTO(task);
+    }
+
+    @Override
+    public Page<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status, Pageable pageable) {
+        return taskRepository.findByTaskGuide_Course_IdAndTeamIdAndStatus(courseId, teamId, status, pageable)
+                .map(TaskConverter::toFinalTeamListResponseDTO);
     }
 }

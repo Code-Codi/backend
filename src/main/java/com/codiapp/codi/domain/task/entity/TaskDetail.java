@@ -1,5 +1,7 @@
 package com.codiapp.codi.domain.task.entity;
 
+import com.codiapp.codi.domain.taskGuide.entity.TaskGuide;
+import com.codiapp.codi.domain.taskGuide.entity.TaskGuideDetail;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,8 +28,6 @@ public class TaskDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
     @Lob
     private String content;
 
@@ -35,12 +35,12 @@ public class TaskDetail {
     @JoinColumn(name = "task_id")
     private Task task;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "taskGuideDetail_id")
+    private TaskGuideDetail taskGuideDetail;
+
     public void setTask(Task task) {
         this.task = task;
-    }
-
-    public void updateTitle(String title) {
-        this.title = title;
     }
 
     public void updateContent(String content) {

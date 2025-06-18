@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface TaskGuideQueryService {
     TaskGuideResponseDTO getTaskGuide(Long id);
     Page<TaskGuideListResponseDTO> getAllTaskGuides(Long courseId, Pageable pageable);
+
 }

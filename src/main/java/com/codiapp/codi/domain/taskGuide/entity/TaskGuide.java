@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.taskGuide.entity;
 
+import com.codiapp.codi.domain.task.entity.Task;
 import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideUpdateRequestDTO;
 import com.codiapp.codi.domain.course.entity.Course;
 import jakarta.persistence.Column;
@@ -49,6 +50,9 @@ public class TaskGuide {
     @OneToMany(mappedBy = "taskGuide", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id ASC")
     private List<TaskGuideDetail> details = new ArrayList<>();
+
+    @OneToMany(mappedBy = "taskGuide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 
     public void updateTitle(String title) {
         this.title = title;
