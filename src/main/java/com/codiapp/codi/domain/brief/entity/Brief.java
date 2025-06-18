@@ -1,7 +1,6 @@
 package com.codiapp.codi.domain.brief.entity;
 
 import com.codiapp.codi.domain.brief.dto.request.BriefUpdateRequestDTO;
-import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,8 +34,8 @@ public class Brief {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="course_id")
-    private Course course;
+    @JoinColumn(name="user_id")
+    private User user;
 
     private String title;
 

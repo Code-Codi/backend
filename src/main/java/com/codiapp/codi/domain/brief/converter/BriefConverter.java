@@ -6,7 +6,7 @@ import com.codiapp.codi.domain.brief.dto.response.BriefDetailResponseDTO;
 import com.codiapp.codi.domain.brief.dto.response.BriefResponseDTO;
 import com.codiapp.codi.domain.brief.entity.Brief;
 import com.codiapp.codi.domain.brief.entity.BriefDetail;
-import com.codiapp.codi.domain.course.entity.Course;
+import com.codiapp.codi.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,12 +30,12 @@ public class BriefConverter {
     }
 
     //dto-> entity
-    public static Brief toTaskGuide(BriefCreateRequestDTO request, Course course) {
+    public static Brief toTaskGuide(BriefCreateRequestDTO request, User user) {
         Brief brief = Brief.builder()
                 .title(request.title())
                 .dueDate(request.dueDate())
                 .createdAt(LocalDateTime.now())
-                .course(course)
+                .user(user)
                 .build();
         return brief;
     }
