@@ -72,7 +72,7 @@ public class TaskGuideController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/taskGuide/{id}/generateTasks")
+    @PostMapping("/{id}/generateTasks")
     public void generateTasks(@PathVariable Long id) {
         taskGuideCommandService.generateTasks(id);
     }
