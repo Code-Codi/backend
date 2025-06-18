@@ -23,7 +23,6 @@ public record ScheduleCreateRequestDTO(
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime endDate,
 
-        @NotBlank(message = "내용은 필수 입력 사항입니다.")
         @Size(max = 50, message = "내용은 최대 50자까지 입력할 수 있습니다.")
         String content
 ) {

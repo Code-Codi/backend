@@ -12,6 +12,7 @@ import com.codiapp.codi.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class ScheduleController {
 
     @Operation(summary = "스케줄 등록", description = "스케줄을 등록합니다.")
     @PostMapping("")
-    public ApiResponse<ScheduleCreateResponseDTO> createSchedule(@RequestBody ScheduleCreateRequestDTO request) {
+    public ApiResponse<ScheduleCreateResponseDTO> createSchedule(@RequestBody @Valid ScheduleCreateRequestDTO request) {
         return ApiResponse.onSuccess(ScheduleConverter.toScheduleCreateResponseDTO(scheduleCommandService.createSchedule(request)));
     }
 
@@ -44,7 +45,7 @@ public class ScheduleController {
     @Parameters({
             @Parameter(name = "scheduleId", description = "스케줄 ID(PK)")
     })
-    public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDTO request) {
+    public ApiResponse<ScheduleUpdateResponseDTO> updateSchedule(@PathVariable Long scheduleId, @RequestBody @Valid ScheduleUpdateRequestDTO request) {
         return ApiResponse.onSuccess(ScheduleConverter.toScheduleUpdateResponseDTO(scheduleCommandService.updateSchedule(scheduleId, request)));
     }
 
