@@ -40,7 +40,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponseDTO>> login(@RequestBody LoginRequestDTO request, HttpSession session) {
+    public ResponseEntity<ApiResponse<LoginResponseDTO>> login(@RequestBody @Valid LoginRequestDTO request, HttpSession session) {
         LoginResponseDTO user = userService.login(request); 
         session.setAttribute("user", user);
         return ResponseEntity.ok(ApiResponse.onSuccess(user));
