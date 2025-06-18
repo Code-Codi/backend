@@ -4,8 +4,11 @@ import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideCreateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideUpdateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.dto.response.TaskGuideListResponseDTO;
 import com.codiapp.codi.domain.taskGuide.dto.response.TaskGuideResponseDTO;
+import com.codiapp.codi.domain.taskGuide.entity.TaskGuide;
 import com.codiapp.codi.domain.taskGuide.service.TaskGuideCommandService;
 import com.codiapp.codi.domain.taskGuide.service.TaskGuideQueryService;
+import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
+import com.codiapp.codi.global.apiPayload.exception.handler.TaskGuideHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -68,4 +71,10 @@ public class TaskGuideController {
         taskGuideCommandService.deleteTaskGuide(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/taskGuide/{id}/generateTasks")
+    public void generateTasks(@PathVariable Long id) {
+        taskGuideCommandService.generateTasks(id);
+    }
+
 }
