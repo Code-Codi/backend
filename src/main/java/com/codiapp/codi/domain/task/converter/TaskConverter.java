@@ -6,6 +6,7 @@ import com.codiapp.codi.domain.task.entity.*;
 import com.codiapp.codi.domain.team.entity.Team;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TaskConverter {
@@ -20,6 +21,7 @@ public class TaskConverter {
         return task;
     }
 
+    //final 단일 조회
     public static FinalTaskResponseDTO toFinalTaskResponseDTO(Task task) {
         List<FinalDetailResponseDTO> detailDTOs = task.getDetails().stream()
                 .map(detail -> {
@@ -68,5 +70,17 @@ public class TaskConverter {
                 task.getStatus(),
                 task.getTaskDate()
         );
+    }
+
+    //final 기능에서 update
+    public static void applyFinalTaskUpdate(Task task, FinalTaskUpdateRequestDTO dto) {
+        Map<Long, String> contentMap = dto.details().stream()
+                .collect(Collectors.toMap(FinalDetailUpdateRequestDTO::taskDetailId, FinalDetailUpdateRequestDTO::content));
+
+        for (TaskDetail detail : task.getDetails()) {
+            if (contentMap.containsKey(detail.getId())) {
+                detail.updateContent(contentMap.get(detail.getId()));
+            }
+        }
     }
 }

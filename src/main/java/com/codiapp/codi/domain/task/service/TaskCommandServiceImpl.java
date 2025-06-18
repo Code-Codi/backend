@@ -1,6 +1,7 @@
 package com.codiapp.codi.domain.task.service;
 
 import com.codiapp.codi.domain.task.converter.TaskConverter;
+import com.codiapp.codi.domain.task.dto.request.FinalTaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.entity.Task;
@@ -45,5 +46,15 @@ public class TaskCommandServiceImpl implements TaskCommandService {
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
 
         taskRepository.delete(task);
+    }
+
+    @Override
+    @Transactional
+    public void updateFinalTask(Long taskId, FinalTaskUpdateRequestDTO dto) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
+
+        TaskConverter.applyFinalTaskUpdate(task, dto);
+        // dirty checking으로 자동 저장됨
     }
 }

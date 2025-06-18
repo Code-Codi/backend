@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.task.controller;
 
+import com.codiapp.codi.domain.task.dto.request.FinalTaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
@@ -65,7 +66,19 @@ public class TaskController {
     }
 
     @GetMapping("/final/{taskId}")
+    @Operation(summary = "최종 과제 조회")
     public ApiResponse<FinalTaskResponseDTO> getFinalTask(@PathVariable Long taskId) {
         return ApiResponse.onSuccess(taskQueryService.getFinalTask(taskId));
     }
+
+    @PatchMapping("/final/{taskId}")
+    @Operation(summary = "최종 과제 수정")
+    public ApiResponse<Void> updateFinalTask(
+            @PathVariable Long taskId,
+            @RequestBody FinalTaskUpdateRequestDTO dto
+    ) {
+        taskCommandService.updateFinalTask(taskId, dto);
+        return ApiResponse.onSuccess(null);
+    }
+
 }
