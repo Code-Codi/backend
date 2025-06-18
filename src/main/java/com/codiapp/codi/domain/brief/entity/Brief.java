@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.brief.entity;
 
+import com.codiapp.codi.domain.brief.dto.request.BriefUpdateRequestDTO;
 import com.codiapp.codi.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,5 +47,17 @@ public class Brief {
 
     @OneToMany(mappedBy = "brief", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BriefDetail> details = new ArrayList<>();
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public void updateBrief(BriefUpdateRequestDTO request) {
+        request.title().ifPresent(this::updateTitle);
+        request.dueDate().ifPresent(this::updateDueDate);
+    }
 
 }

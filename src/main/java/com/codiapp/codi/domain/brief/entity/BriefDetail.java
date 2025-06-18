@@ -1,5 +1,6 @@
 package com.codiapp.codi.domain.brief.entity;
 
+import com.codiapp.codi.domain.brief.dto.request.BriefDetailUpdateRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -33,5 +34,18 @@ public class BriefDetail {
     private String title;
 
     private String description;
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateBriefDetail(BriefDetailUpdateRequestDTO request) {
+        request.title().ifPresent(this::updateTitle);
+        request.description().ifPresent(this::updateDescription);
+    }
 
 }

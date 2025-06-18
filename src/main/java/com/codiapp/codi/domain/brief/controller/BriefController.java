@@ -1,6 +1,7 @@
 package com.codiapp.codi.domain.brief.controller;
 
 import com.codiapp.codi.domain.brief.dto.request.BriefCreateRequestDTO;
+import com.codiapp.codi.domain.brief.dto.request.BriefUpdateRequestDTO;
 import com.codiapp.codi.domain.brief.dto.response.BriefResponseDTO;
 import com.codiapp.codi.domain.brief.service.BriefCommandService;
 import com.codiapp.codi.domain.brief.service.BriefQueryService;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +36,12 @@ public class BriefController {
     public ResponseEntity<Long> createBrief(@RequestBody BriefCreateRequestDTO request) {
         Long briefId = briefCommandService.createBrief(request);
         return ResponseEntity.ok(briefId);
+    }
+
+    @PatchMapping("/{briefId}")
+    @Operation(summary = "과제 제공 수정")
+    public ResponseEntity<Void> updateBrief(@PathVariable Long briefId, @RequestBody BriefUpdateRequestDTO request) {
+        briefCommandService.updateBrief(briefId, request);
+        return ResponseEntity.ok().build();
     }
 }
