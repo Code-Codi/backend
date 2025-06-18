@@ -37,4 +37,11 @@ public class BriefDetailCommandServiceImpl implements BriefDetailCommandService 
         briefDetail.updateBriefDetail(request);
     }
 
+    @Override
+    public void deleteBriefDetail(Long briefDetailId) {
+        BriefDetail briefDetail = briefDetailRepository.findById(briefDetailId)
+                .orElseThrow(() -> new BriefHandler(ErrorStatus.BRIEF_DETAIL_NOT_FOUND));
+
+        briefDetailRepository.delete(briefDetail);
+    }
 }

@@ -5,6 +5,6 @@ import com.codiapp.codi.domain.brief.dto.request.BriefDetailUpdateRequestDTO;
 
 public interface BriefDetailCommandService {
     Long createBriefDetail(BriefDetailCreateRequestDTO request);
-
     void updateBriefDetail(Long briefDetailId, BriefDetailUpdateRequestDTO request);
+    void deleteBriefDetail(Long briefDetailId);
 }

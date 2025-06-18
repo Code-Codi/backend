@@ -6,6 +6,7 @@ import com.codiapp.codi.domain.brief.service.BriefDetailCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,13 @@ public class BriefDetailController {
     public ResponseEntity<Void> updateDetail(@PathVariable Long briefDetailId, @RequestBody BriefDetailUpdateRequestDTO request) {
         briefDetailCommandService.updateBriefDetail(briefDetailId, request);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{briefDetailId}")
+    @Operation(summary = "세부 과제 제공 삭제")
+    public ResponseEntity<Void> deleteDetail(@PathVariable Long briefDetailId) {
+        briefDetailCommandService.deleteBriefDetail(briefDetailId);
+        return ResponseEntity.noContent().build();
     }
 
 }

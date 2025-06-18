@@ -39,4 +39,11 @@ public class BriefCommandServiceImpl implements BriefCommandService {
         brief.updateBrief(request);
     }
 
+    @Override
+    public void deleteBrief(Long briefId) {
+        Brief brief = briefRepository.findById(briefId)
+                .orElseThrow(()-> new BriefHandler(ErrorStatus.BRIEF_NOT_FOUND));
+
+        briefRepository.delete(brief);
+    }
 }
