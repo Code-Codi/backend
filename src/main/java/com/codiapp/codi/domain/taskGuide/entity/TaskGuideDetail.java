@@ -1,6 +1,6 @@
-package com.codiapp.codi.domain.brief.entity;
+package com.codiapp.codi.domain.taskGuide.entity;
 
-import com.codiapp.codi.domain.brief.dto.request.BriefDetailUpdateRequestDTO;
+import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideDetailUpdateRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,15 +21,15 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class BriefDetail {
+public class TaskGuideDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="brief_id")
-    private Brief brief;
+    @JoinColumn(name="taskGuide_id")
+    private TaskGuide taskGuide;
 
     private String title;
 
@@ -43,7 +43,7 @@ public class BriefDetail {
         this.description = description;
     }
 
-    public void updateBriefDetail(BriefDetailUpdateRequestDTO request) {
+    public void updateDetail(TaskGuideDetailUpdateRequestDTO request) {
         request.title().ifPresent(this::updateTitle);
         request.description().ifPresent(this::updateDescription);
     }

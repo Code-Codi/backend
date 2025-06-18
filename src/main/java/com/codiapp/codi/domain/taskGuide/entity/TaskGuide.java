@@ -1,8 +1,7 @@
-package com.codiapp.codi.domain.brief.entity;
+package com.codiapp.codi.domain.taskGuide.entity;
 
-import com.codiapp.codi.domain.brief.dto.request.BriefUpdateRequestDTO;
+import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideUpdateRequestDTO;
 import com.codiapp.codi.domain.course.entity.Course;
-import com.codiapp.codi.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,7 +28,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Brief {
+public class TaskGuide {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,8 +45,8 @@ public class Brief {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "brief", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BriefDetail> details = new ArrayList<>();
+    @OneToMany(mappedBy = "taskGuide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskGuideDetail> details = new ArrayList<>();
 
     public void updateTitle(String title) {
         this.title = title;
@@ -55,8 +54,7 @@ public class Brief {
     public void updateDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
-
-    public void updateBrief(BriefUpdateRequestDTO request) {
+    public void updateTaskGuide(TaskGuideUpdateRequestDTO request) {
         request.title().ifPresent(this::updateTitle);
         request.dueDate().ifPresent(this::updateDueDate);
     }
