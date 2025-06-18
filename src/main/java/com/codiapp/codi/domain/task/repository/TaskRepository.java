@@ -12,6 +12,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // 특정 팀(teamId)에 속한 모든 Task 목록 조회
     Page<Task> findAllByTeamId(Long teamId, Pageable pageable);
-    List<Task> findByTeam_Course_IdAndTeam_IdAndStatus(Long courseId, Long teamId, TaskStatus status);
+    Page<Task> findByTaskGuide_Course_IdAndTeamIdAndStatus(Long courseId, Long teamId, TaskStatus status, Pageable pageable);
 
 }

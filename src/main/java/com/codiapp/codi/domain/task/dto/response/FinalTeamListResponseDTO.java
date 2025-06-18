@@ -8,6 +8,8 @@ public record FinalTeamListResponseDTO(
         Long taskId,
         TaskStatus status,
         LocalDate taskDate,
+        Long taskGuideId,
+        String title,
         Long teamId,
         Long courseId
 ) {}

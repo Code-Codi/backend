@@ -100,6 +100,8 @@ public class TaskConverter {
                 task.getId(),
                 task.getStatus(),
                 task.getTaskDate(),
+                task.getTaskGuide().getId(),
+                task.getTaskGuide().getTitle(),
                 task.getTeam().getId(),
                 task.getTeam().getCourse().getId()
         );

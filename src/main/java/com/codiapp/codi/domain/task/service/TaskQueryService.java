@@ -15,6 +15,6 @@ public interface TaskQueryService {
     TaskResponseDTO getTask(Long taskId);
     Page<FinalTaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable);
     FinalTaskResponseDTO getFinalTask(Long taskId);
-    List<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status);
+    Page<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status, Pageable pageable);
 
 }

@@ -46,10 +46,8 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     }
 
     @Override
-    public List<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status) {
-        return taskRepository.findByTeam_Course_IdAndTeam_IdAndStatus(courseId, teamId, status)
-                .stream()
-                .map(TaskConverter::toFinalTeamListResponseDTO)
-                .toList();
+    public Page<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status, Pageable pageable) {
+        return taskRepository.findByTaskGuide_Course_IdAndTeamIdAndStatus(courseId, teamId, status, pageable)
+                .map(TaskConverter::toFinalTeamListResponseDTO);
     }
 }

@@ -92,11 +92,17 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/teamList")
-    public ApiResponse<List<FinalTeamListResponseDTO>> getTeamTasksByStatus(
+    @GetMapping("/teamTasks")
+    public ResponseEntity<ApiResponse<Page<FinalTeamListResponseDTO>>> getTeamTasksByStatus(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam Long courseId,
             @RequestParam Long teamId,
-            @RequestParam TaskStatus status) {
-        return ApiResponse.onSuccess(taskQueryService.getTeamTasksByStatus(courseId, teamId, status));
+            @RequestParam TaskStatus status
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FinalTeamListResponseDTO> response =
+                taskQueryService.getTeamTasksByStatus(courseId, teamId, status, pageable);
+        return ResponseEntity.ok(ApiResponse.onSuccess(response));
     }
 }
