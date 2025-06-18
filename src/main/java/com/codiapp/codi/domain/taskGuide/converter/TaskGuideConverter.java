@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.taskGuide.converter;
 import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideCreateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideDetailCreateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.dto.response.TaskGuideDetailResponseDTO;
+import com.codiapp.codi.domain.taskGuide.dto.response.TaskGuideListResponseDTO;
 import com.codiapp.codi.domain.taskGuide.dto.response.TaskGuideResponseDTO;
 import com.codiapp.codi.domain.taskGuide.entity.TaskGuide;
 import com.codiapp.codi.domain.taskGuide.entity.TaskGuideDetail;
@@ -46,5 +47,14 @@ public class TaskGuideConverter {
                 .description(request.description())
                 .taskGuide(taskGuide)
                 .build();
+    }
+
+    public static TaskGuideListResponseDTO taskGuideListResponseDTO(TaskGuide taskGuide) {
+        return new TaskGuideListResponseDTO(
+                taskGuide.getId(),
+                taskGuide.getTitle(),
+                taskGuide.getDueDate(),
+                taskGuide.getCreatedAt()
+        );
     }
 }
