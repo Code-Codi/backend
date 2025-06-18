@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.task.controller;
 import com.codiapp.codi.domain.task.dto.request.FinalTaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
@@ -41,13 +42,13 @@ public class TaskController {
     }
 
     @GetMapping
-    @Operation(summary = "전체 과제 리스트 조회")
-    public ResponseEntity<Page<TaskListResponseDTO>> getAllTasks(
+    @Operation(summary = "최종 전체 과제 리스트 조회")
+    public ResponseEntity<Page<FinalTaskListResponseDTO>> getAllTasks(
             @RequestParam Long teamId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<TaskListResponseDTO> response = taskQueryService.getAllTasks(teamId, pageable);
+        Page<FinalTaskListResponseDTO> response = taskQueryService.getAllTasks(teamId, pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -79,6 +80,12 @@ public class TaskController {
     ) {
         taskCommandService.updateFinalTask(taskId, dto);
         return ApiResponse.onSuccess(null);
+    }
+
+    @PatchMapping("/{taskId}/status")
+    public ResponseEntity<Void> toggleTaskStatus(@PathVariable Long taskId) {
+        taskCommandService.toggleTaskStatus(taskId);
+        return ResponseEntity.ok().build();
     }
 
 }

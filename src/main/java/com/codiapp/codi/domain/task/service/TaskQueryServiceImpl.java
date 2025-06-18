@@ -1,6 +1,7 @@
 package com.codiapp.codi.domain.task.service;
 
 import com.codiapp.codi.domain.task.converter.TaskConverter;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
@@ -30,9 +31,9 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     }
 
     @Override
-    public Page<TaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable) {
+    public Page<FinalTaskListResponseDTO> getAllTasks(Long teamId, Pageable pageable) {
         return taskRepository.findAllByTeamId(teamId, pageable)
-                .map(TaskConverter::toTaskListResponseDTO);
+                .map(TaskConverter::toFinalTaskListResponseDTO);
     }
 
     @Override

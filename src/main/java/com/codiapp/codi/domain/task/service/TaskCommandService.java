@@ -9,4 +9,5 @@ public interface TaskCommandService {
     void updateTask(Long taskId, TaskUpdateRequestDTO request);
     void deleteTask(Long taskId);
     void updateFinalTask(Long taskId, FinalTaskUpdateRequestDTO dto);
+    void toggleTaskStatus(Long taskId);
 }

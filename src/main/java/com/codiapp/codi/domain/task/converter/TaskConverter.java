@@ -48,6 +48,17 @@ public class TaskConverter {
         );
     }
 
+    public static FinalTaskListResponseDTO toFinalTaskListResponseDTO (Task task) {
+        return new FinalTaskListResponseDTO(
+                task.getId(),
+                task.getStatus(),
+                task.getTaskGuide().getId(),
+                task.getTaskGuide().getTitle(),
+                task.getTaskGuide().getDueDate(),
+                task.getTaskGuide().getCreatedAt()
+        );
+    }
+
 
     // Task Entity → TaskResponseDTO (단건 상세)
     public static TaskResponseDTO toTaskResponseDTO(Task task) {
