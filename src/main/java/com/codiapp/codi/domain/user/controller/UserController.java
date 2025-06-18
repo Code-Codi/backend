@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,5 +88,12 @@ public class UserController {
                     .email(user.getEmail())
                     .userName(user.getUsername())
                     .build());
+    }
+
+    //계정탈퇴
+    @DeleteMapping("/delete")
+    public ApiResponse<?> deleteUser(@RequestBody DeleteUserRequest request) {
+        userService.deleteUser(request.getEmail(), request.getPassword());
+        return ApiResponse.onSuccess("계정 삭제 성공");
     }
 }

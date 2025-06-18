@@ -19,5 +19,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
    List<Post> findTop3ByOrderByVisitorsDesc();
 
-
+   //계정 탈퇴용
+   void deleteAllByWriterId(Long writerId);
 }
