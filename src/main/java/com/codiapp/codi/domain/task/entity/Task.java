@@ -1,6 +1,7 @@
 package com.codiapp.codi.domain.task.entity;
 
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
+import com.codiapp.codi.domain.taskGuide.entity.TaskGuide;
 import com.codiapp.codi.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,8 +25,6 @@ public class Task {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    private String title;
-
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
@@ -35,14 +34,9 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskDetail> details = new ArrayList<>();
 
-    public void addDetail(TaskDetail detail) {
-        details.add(detail);
-        detail.setTask(this);
-    }
-
-    public void updateTitle(String title) {
-        this.title = title;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "taskGuide_id")
+    private TaskGuide taskGuide;
 
     public void updateStatus(TaskStatus status) {
         this.status = status;
@@ -53,7 +47,6 @@ public class Task {
     }
 
     public void applyUpdate(TaskUpdateRequestDTO request) {
-        request.title().ifPresent(this::updateTitle);
         request.status().ifPresent(this::updateStatus);
         request.taskDate().ifPresent(this::updateTaskDate);
     }

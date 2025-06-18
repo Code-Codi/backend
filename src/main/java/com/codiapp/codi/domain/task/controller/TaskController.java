@@ -2,10 +2,12 @@ package com.codiapp.codi.domain.task.controller;
 
 import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
 import com.codiapp.codi.domain.task.service.TaskCommandService;
 import com.codiapp.codi.domain.task.service.TaskQueryService;
+import com.codiapp.codi.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
@@ -61,5 +62,10 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
         taskCommandService.deleteTask(taskId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/final/{taskId}")
+    public ApiResponse<FinalTaskResponseDTO> getFinalTask(@PathVariable Long taskId) {
+        return ApiResponse.onSuccess(taskQueryService.getFinalTask(taskId));
     }
 }

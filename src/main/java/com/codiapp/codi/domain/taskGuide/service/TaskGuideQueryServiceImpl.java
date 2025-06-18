@@ -30,4 +30,5 @@ public class TaskGuideQueryServiceImpl implements TaskGuideQueryService {
         return taskGuideRepository.findAllByCourseId(courseId, pageable)
                 .map(TaskGuideConverter::taskGuideListResponseDTO);
     }
+
 }

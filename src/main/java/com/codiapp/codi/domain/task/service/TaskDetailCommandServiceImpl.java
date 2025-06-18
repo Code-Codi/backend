@@ -25,7 +25,6 @@ public class TaskDetailCommandServiceImpl implements TaskDetailCommandService {
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
 
         TaskDetail detail = TaskDetail.builder()
-                .title(request.title())
                 .content(request.content())
                 .task(task)
                 .build();
@@ -38,8 +37,6 @@ public class TaskDetailCommandServiceImpl implements TaskDetailCommandService {
     public void updateDetail(Long detailId, TaskDetailUpdateRequestDTO request) {
         TaskDetail detail = taskDetailRepository.findById(detailId)
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_DETAIL_NOT_FOUND));
-
-        request.title().ifPresent(detail::updateTitle);
         request.content().ifPresent(detail::updateContent);
     }
 

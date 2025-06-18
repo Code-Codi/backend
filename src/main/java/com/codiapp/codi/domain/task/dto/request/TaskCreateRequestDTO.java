@@ -7,7 +7,6 @@ import java.util.List;
 
 public record TaskCreateRequestDTO(
         Long teamId,
-        String title,
         TaskStatus status,
         LocalDate taskDate
 ) {}
