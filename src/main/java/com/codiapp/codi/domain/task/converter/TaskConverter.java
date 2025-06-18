@@ -94,4 +94,14 @@ public class TaskConverter {
             }
         }
     }
+
+    public static FinalTeamListResponseDTO toFinalTeamListResponseDTO(Task task) {
+        return new FinalTeamListResponseDTO(
+                task.getId(),
+                task.getStatus(),
+                task.getTaskDate(),
+                task.getTeam().getId(),
+                task.getTeam().getCourse().getId()
+        );
+    }
 }

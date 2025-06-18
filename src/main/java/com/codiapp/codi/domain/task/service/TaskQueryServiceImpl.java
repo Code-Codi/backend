@@ -3,8 +3,10 @@ package com.codiapp.codi.domain.task.service;
 import com.codiapp.codi.domain.task.converter.TaskConverter;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTeamListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
+import com.codiapp.codi.domain.task.entity.TaskStatus;
 import com.codiapp.codi.domain.task.repository.TaskRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 import com.codiapp.codi.global.apiPayload.exception.handler.TaskHandler;
@@ -41,5 +43,13 @@ public class TaskQueryServiceImpl implements TaskQueryService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_NOT_FOUND));
         return TaskConverter.toFinalTaskResponseDTO(task);
+    }
+
+    @Override
+    public List<FinalTeamListResponseDTO> getTeamTasksByStatus(Long courseId, Long teamId, TaskStatus status) {
+        return taskRepository.findByTeam_Course_IdAndTeam_IdAndStatus(courseId, teamId, status)
+                .stream()
+                .map(TaskConverter::toFinalTeamListResponseDTO)
+                .toList();
     }
 }

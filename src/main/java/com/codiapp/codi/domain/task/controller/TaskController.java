@@ -5,8 +5,10 @@ import com.codiapp.codi.domain.task.dto.request.TaskCreateRequestDTO;
 import com.codiapp.codi.domain.task.dto.request.TaskUpdateRequestDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.FinalTaskResponseDTO;
+import com.codiapp.codi.domain.task.dto.response.FinalTeamListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskListResponseDTO;
 import com.codiapp.codi.domain.task.dto.response.TaskResponseDTO;
+import com.codiapp.codi.domain.task.entity.TaskStatus;
 import com.codiapp.codi.domain.task.service.TaskCommandService;
 import com.codiapp.codi.domain.task.service.TaskQueryService;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
@@ -17,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -88,4 +92,11 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/teamList")
+    public ApiResponse<List<FinalTeamListResponseDTO>> getTeamTasksByStatus(
+            @RequestParam Long courseId,
+            @RequestParam Long teamId,
+            @RequestParam TaskStatus status) {
+        return ApiResponse.onSuccess(taskQueryService.getTeamTasksByStatus(courseId, teamId, status));
+    }
 }
