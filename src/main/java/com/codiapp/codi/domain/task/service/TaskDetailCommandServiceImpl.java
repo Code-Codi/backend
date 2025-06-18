@@ -1,7 +1,7 @@
 package com.codiapp.codi.domain.task.service;
 
 import com.codiapp.codi.domain.task.dto.request.TaskDetailCreateRequestDTO;
-import com.codiapp.codi.domain.task.dto.request.TaskDeatailUpdateRequestDTO;
+import com.codiapp.codi.domain.task.dto.request.TaskDetailUpdateRequestDTO;
 import com.codiapp.codi.domain.task.entity.Task;
 import com.codiapp.codi.domain.task.entity.TaskDetail;
 import com.codiapp.codi.domain.task.repository.TaskDetailRepository;
@@ -35,7 +35,7 @@ public class TaskDetailCommandServiceImpl implements TaskDetailCommandService {
 
     @Transactional
     @Override
-    public void updateDetail(Long detailId, TaskDeatailUpdateRequestDTO request) {
+    public void updateDetail(Long detailId, TaskDetailUpdateRequestDTO request) {
         TaskDetail detail = taskDetailRepository.findById(detailId)
                 .orElseThrow(() -> new TaskHandler(ErrorStatus.TASK_DETAIL_NOT_FOUND));
 

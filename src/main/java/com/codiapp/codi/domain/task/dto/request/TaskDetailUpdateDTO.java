@@ -1,6 +1,0 @@
-package com.codiapp.codi.domain.task.dto.request;
-
-public record TaskDetailUpdateDTO(
-        String title,
-        String content
-) {}

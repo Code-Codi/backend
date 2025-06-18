@@ -1,7 +1,7 @@
 package com.codiapp.codi.domain.task.controller;
 
 import com.codiapp.codi.domain.task.dto.request.TaskDetailCreateRequestDTO;
-import com.codiapp.codi.domain.task.dto.request.TaskDeatailUpdateRequestDTO;
+import com.codiapp.codi.domain.task.dto.request.TaskDetailUpdateRequestDTO;
 import com.codiapp.codi.domain.task.service.TaskDetailCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,7 +32,7 @@ public class TaskDetailController {
     @PatchMapping("/{detailId}")
     public ResponseEntity<Void> updateDetail(@Parameter(description = "수정할 세부 작업 ID", example = "1")
                                              @PathVariable Long detailId,
-                                             @RequestBody TaskDeatailUpdateRequestDTO request) {
+                                             @RequestBody TaskDetailUpdateRequestDTO request) {
         taskDetailCommandService.updateDetail(detailId, request);
         return ResponseEntity.ok().build();
     }
