@@ -82,4 +82,11 @@ public ApiResponse<Void> favoritePost(@PathVariable Long postId) {
     return ApiResponse.onSuccess(null);
 }
 
+//조회수 증가
+@PostMapping("/{postId}/view")
+public ApiResponse<Void> increaseView(@PathVariable Long postId) {
+    postService.increaseViewCount(postId);
+    return ApiResponse.onSuccess(null);
+}
+
 } 

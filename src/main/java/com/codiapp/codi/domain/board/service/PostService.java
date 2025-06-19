@@ -102,7 +102,7 @@ public Page<PostSimpleResponseDTO> getPostsByType(String boardType, Pageable pag
     public PostResponseDTO getPostByType(String boardType, Long postId) {
         Post post = postRepository.findByIdAndBoardType(postId, boardType.toUpperCase())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
-        post.setVisitors(post.getVisitors() + 1); // 방문자 수 증가
+        // post.setVisitors(post.getVisitors() + 1); // 방문자 수 증가
         return PostConverter.toPostResponseDTO(post);
     }
 
@@ -118,6 +118,14 @@ public List<PostSimpleResponseDTO> getPopularPosts() {
         .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
     post.setFavorites(post.getFavorites() + 1);
     postRepository.save(post);
+}
+
+//조회수 증가
+@Transactional
+public void increaseViewCount(Long postId) {
+    Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
+    post.setVisitors(post.getVisitors() + 1);
 }
 
 

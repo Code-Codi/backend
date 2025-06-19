@@ -23,8 +23,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserTeamRepository userTeamRepository;
-    private final PostRepository postRepository;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,  UserTeamRepository userTeamRepository, PostRepository postRepository){
         this.userRepository = userRepository;
@@ -64,10 +62,6 @@ public class UserService {
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new UserHandler(ErrorStatus.PASSWORD_NOT_MATCHED);
         }
-        //자식 삭제
-        userTeamRepository.deleteAllByUser_Id(user.getId());
-        postRepository.deleteAllByWriterId(user.getId());
-
         //계정 삭제
         userRepository.delete(user);
     }
