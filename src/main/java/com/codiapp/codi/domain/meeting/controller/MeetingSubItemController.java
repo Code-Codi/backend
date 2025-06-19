@@ -7,6 +7,7 @@ import com.codiapp.codi.domain.meeting.dto.request.AgendaUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.MeetingAttendeeCreateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.request.MeetingAttendeeUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingAttendeeResponseDTO;
 import com.codiapp.codi.domain.meeting.service.AgendaCommandService;
 import com.codiapp.codi.domain.meeting.service.AgendaDetailCommandService;
@@ -127,5 +128,12 @@ public class MeetingSubItemController {
     @GetMapping("/{meetingId}/attendees")
     public ApiResponse<List<MeetingAttendeeResponseDTO>> getMeetingAttendees(@PathVariable Long meetingId) {
         return ApiResponse.onSuccess(meetingAttendeeQueryService.getAttendeesByMeeting(meetingId));
+    }
+
+    @Operation(summary = "회의록 참여 인원 수정", description = "회의록의 참석자를 전부 교체합니다.")
+    @PatchMapping("/attendees")
+    public ResponseEntity<Void> updateAttendees(@RequestBody MeetingAttendeeUpdateRequestDTO request) {
+        attendeeCommandService.updateAttendees(request.meetingId(), request.attendeeIds());
+        return ResponseEntity.ok().build();
     }
 }

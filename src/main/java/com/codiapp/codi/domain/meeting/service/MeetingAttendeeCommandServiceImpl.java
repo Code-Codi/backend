@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MeetingAttendeeCommandServiceImpl implements MeetingAttendeeCommandService {
@@ -36,6 +38,25 @@ public class MeetingAttendeeCommandServiceImpl implements MeetingAttendeeCommand
                     .userTeam(userTeam)
                     .build();
 
+            meetingAttendeeRepository.save(attendee);
+        }
+    }
+
+    @Transactional
+    public void updateAttendees(Long meetingId, List<Long> newAttendeeIds) {
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new MeetingHandler(ErrorStatus.MEETING_NOT_FOUND));
+
+        // 1. 기존 참석자 전부 삭제
+        meetingAttendeeRepository.deleteAllByMeetingId(meetingId);
+
+        // 2. 새로운 참석자들 저장
+        List<UserTeam> newUserTeams = userTeamRepository.findAllById(newAttendeeIds);
+        for (UserTeam userTeam : newUserTeams) {
+            MeetingAttendee attendee = MeetingAttendee.builder()
+                    .meeting(meeting)
+                    .userTeam(userTeam)
+                    .build();
             meetingAttendeeRepository.save(attendee);
         }
     }

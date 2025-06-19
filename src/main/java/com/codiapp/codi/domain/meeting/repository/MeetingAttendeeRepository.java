@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MeetingAttendeeRepository extends JpaRepository<MeetingAttendee, Long> {
     List<MeetingAttendee> findByMeetingId(Long meetingId);
+    void deleteAllByMeetingId(Long meetingId);
 }
