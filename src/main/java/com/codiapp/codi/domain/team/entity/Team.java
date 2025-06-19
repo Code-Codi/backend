@@ -31,6 +31,10 @@ public class Team extends BaseEntity {
     	this.name = name;
     }
 
+    public void updateCourse(Course course) {
+        this.course = course;
+    }
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 }

@@ -2,6 +2,7 @@ package com.codiapp.codi.domain.team.service;
 
 import com.codiapp.codi.domain.team.converter.TeamConverter;
 import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.UserTeamMemberResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
@@ -23,23 +24,9 @@ public class TeamQueryServiceImpl implements TeamQueryService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> getAllTeamLists() {
-        return teamRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Team> getTeamsByUserId(Long userId) {
-        return userTeamRepository.findTeamsByUserId(userId); // 바로 Team 목록 반환
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<String> getUserNamesByTeamId(Long teamId) {
-        List<UserTeam> userTeams = userTeamRepository.findByTeamId(teamId);
-        return userTeams.stream()
-                .map((UserTeam ut) -> ut.getUser().getUsername())
-                .collect(Collectors.toList());
+    public List<TeamReadResponseDTO> getTeamsByUserId(Long userId) {
+        return userTeamRepository.findTeamsByUserId(userId).stream()
+                .map(TeamConverter::toReadResponseDTO).toList();
     }
 
     @Override

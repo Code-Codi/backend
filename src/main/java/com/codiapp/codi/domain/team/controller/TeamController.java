@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.UserTeamMemberResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.service.TeamCommandService;
 import com.codiapp.codi.domain.team.service.TeamQueryService;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codiapp.codi.domain.team.converter.TeamConverter;
-import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
-import com.codiapp.codi.domain.team.dto.request.TeamUpdateRequestDTO;
+import com.codiapp.codi.domain.team.dto.request.TeamRequestDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamCreateResponseDTO;
-import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
@@ -46,16 +45,14 @@ public class TeamController {
 
     // 팀 생성 (이름 + 팀원 이메일 리스트)
     @PostMapping
-    public ApiResponse<TeamCreateResponseDTO> createTeam(@RequestBody TeamCreateRequestDTO requestDTO) {
+    public ApiResponse<TeamCreateResponseDTO> createTeam(@RequestBody TeamRequestDTO requestDTO) {
         TeamCreateResponseDTO responseDTO = teamCommandService.createTeam(requestDTO);
         return ApiResponse.of(SuccessStatus._OK, responseDTO);
     }
     
     @GetMapping("/my/{id}")
     public ApiResponse<List<TeamReadResponseDTO>> getMyTeams(@PathVariable("id") Long userId) {
-        List<Team> myTeams = teamQueryService.getTeamsByUserId(userId);
-        List<TeamReadResponseDTO> response = TeamConverter.toReadResponseDTO(myTeams);
-        return ApiResponse.of(SuccessStatus._OK, response);
+        return ApiResponse.of(SuccessStatus._OK, teamQueryService.getTeamsByUserId(userId));
     }
 
     @GetMapping("/{teamId}/members")
@@ -66,7 +63,7 @@ public class TeamController {
 
     
     @PatchMapping("/{teamId}")
-    public ApiResponse<?> updateTeam(@PathVariable("teamId") Long teamId, @RequestBody TeamUpdateRequestDTO dto) {
+    public ApiResponse<?> updateTeam(@PathVariable("teamId") Long teamId, @RequestBody TeamRequestDTO dto) {
         teamCommandService.updateTeam(teamId, dto);
         return ApiResponse.of(SuccessStatus._OK, null);
     }
