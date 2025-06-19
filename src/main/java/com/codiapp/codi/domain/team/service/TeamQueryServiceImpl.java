@@ -4,6 +4,7 @@ import com.codiapp.codi.domain.team.converter.TeamConverter;
 import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.UserTeamMemberResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.domain.team.entity.UserTeam;
 import com.codiapp.codi.domain.team.repository.TeamRepository;
@@ -45,6 +46,13 @@ public class TeamQueryServiceImpl implements TeamQueryService {
         List<Team> teams = teamRepository.findByCourseId(courseId);
         return teams.stream()
                 .map(TeamConverter::toTeamInfoResponseDTO)
+                .toList();
+    }
+
+    public List<UserTeamMemberResponseDTO> getUserTeamMembers(Long teamId) {
+        List<UserTeam> userTeams = userTeamRepository.findAllByTeamId(teamId);
+        return userTeams.stream()
+                .map(TeamConverter::toUserTeamMemberDTO)
                 .toList();
     }
 }

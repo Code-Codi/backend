@@ -6,9 +6,14 @@ import com.codiapp.codi.domain.meeting.dto.request.AgendaDetailUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.AgendaUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionUpdateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.request.MeetingAttendeeCreateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.request.MeetingAttendeeUpdateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.response.MeetingAttendeeResponseDTO;
 import com.codiapp.codi.domain.meeting.service.AgendaCommandService;
 import com.codiapp.codi.domain.meeting.service.AgendaDetailCommandService;
 import com.codiapp.codi.domain.meeting.service.DecisionCommandService;
+import com.codiapp.codi.domain.meeting.service.MeetingAttendeeCommandService;
+import com.codiapp.codi.domain.meeting.service.MeetingAttendeeQueryService;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,12 +21,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +39,8 @@ public class MeetingSubItemController {
     private final AgendaCommandService agendaCommandService;
     private final AgendaDetailCommandService agendaDetailCommandService;
     private final DecisionCommandService decisionCommandService;
+    private final MeetingAttendeeCommandService attendeeCommandService;
+    private final MeetingAttendeeQueryService meetingAttendeeQueryService;
 
     //  Agenda
     @Operation(summary = "안건 생성", description = "회의 안건을 생성합니다.")
@@ -106,5 +116,24 @@ public class MeetingSubItemController {
             @PathVariable Long decisionId) {
         decisionCommandService.delete(decisionId);
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
+    }
+
+    @Operation(summary = "회의록 참여 인원 저장", description = "회의록 참여 인원 저장합니다.")
+    @PostMapping("/attendees")
+    public ResponseEntity<Void> createAttendees(@RequestBody MeetingAttendeeCreateRequestDTO request) {
+        attendeeCommandService.createAttendees(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{meetingId}/attendees")
+    public ApiResponse<List<MeetingAttendeeResponseDTO>> getMeetingAttendees(@PathVariable Long meetingId) {
+        return ApiResponse.onSuccess(meetingAttendeeQueryService.getAttendeesByMeeting(meetingId));
+    }
+
+    @Operation(summary = "회의록 참여 인원 수정", description = "회의록의 참석자를 전부 교체합니다.")
+    @PatchMapping("/attendees")
+    public ResponseEntity<Void> updateAttendees(@RequestBody MeetingAttendeeUpdateRequestDTO request) {
+        attendeeCommandService.updateAttendees(request.meetingId(), request.attendeeIds());
+        return ResponseEntity.ok().build();
     }
 }

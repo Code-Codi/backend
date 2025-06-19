@@ -5,6 +5,7 @@ import com.codiapp.codi.domain.team.dto.request.TeamRequestDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamCreateResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.UserTeamMemberResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.domain.team.entity.UserTeam;
 import com.codiapp.codi.domain.user.entity.User;
@@ -40,5 +41,12 @@ public class TeamConverter {
 
     public static TeamInfoResponseDTO toTeamInfoResponseDTO(Team team) {
         return new TeamInfoResponseDTO(team.getId(), team.getName());
+    }
+
+    public static UserTeamMemberResponseDTO toUserTeamMemberDTO(UserTeam userTeam) {
+        return new UserTeamMemberResponseDTO(
+                userTeam.getId(),
+                userTeam.getUser().getUsername()
+        );
     }
 }

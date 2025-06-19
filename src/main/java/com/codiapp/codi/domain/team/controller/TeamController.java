@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.team.controller;
 import java.util.List;
 
 import com.codiapp.codi.domain.team.dto.response.TeamInfoResponseDTO;
+import com.codiapp.codi.domain.team.dto.response.UserTeamMemberResponseDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamReadResponseDTO;
 import com.codiapp.codi.domain.team.service.TeamCommandService;
 import com.codiapp.codi.domain.team.service.TeamQueryService;
@@ -81,4 +82,9 @@ public class TeamController {
         return ResponseEntity.ok(ApiResponse.onSuccess(response));
     }
 
+    @GetMapping("/{teamId}/userTeam")
+    public ApiResponse<List<UserTeamMemberResponseDTO>> getNameAndTeamMembers(@PathVariable Long teamId) {
+
+        return ApiResponse.onSuccess(teamQueryService.getUserTeamMembers(teamId));
+    }
 }

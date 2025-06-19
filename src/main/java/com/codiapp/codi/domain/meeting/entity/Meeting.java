@@ -37,15 +37,9 @@ public class Meeting {
     @Builder.Default
     private List<Decision> decisions = new ArrayList<>();
 
-    public void addAgenda(Agenda agenda) {
-        agendas.add(agenda);
-        agenda.setMeeting(this);
-    }
-
-    public void addDecision(Decision decision) {
-        decisions.add(decision);
-        decision.setMeeting(this);
-    }
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<MeetingAttendee> attendees = new ArrayList<>();
 
     public void setTitle(String title) {
         this.title = title;

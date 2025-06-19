@@ -4,6 +4,7 @@ import com.codiapp.codi.domain.meeting.dto.request.MeetingCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.response.AgendaDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.AgendaResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.DecisionResponseDTO;
+import com.codiapp.codi.domain.meeting.dto.response.MeetingAttendeeResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingDetailResponseDTO;
 import com.codiapp.codi.domain.meeting.dto.response.MeetingListResponseDTO;
 import com.codiapp.codi.domain.meeting.entity.*;
@@ -56,14 +57,23 @@ public class MeetingConverter {
     }
 
     public static MeetingListResponseDTO toMeetingListDTO(Meeting meeting) {
+        List<String> attendeeNames = meeting.getAttendees().stream()
+                .map(att -> att.getUserTeam().getUser().getUsername()) // UserTeam → User → name
+                .toList();
+
         return new MeetingListResponseDTO(
                 meeting.getId(),
                 meeting.getTitle(),
                 meeting.getLocation(),
-                meeting.getDateTime()
+                meeting.getDateTime(),
+                attendeeNames
         );
     }
 
+    public static MeetingAttendeeResponseDTO toDTO(MeetingAttendee attendee) {
+        return new MeetingAttendeeResponseDTO(
+                attendee.getUserTeam().getId(),
+                attendee.getUserTeam().getUser().getUsername()
+        );
+    }
 }
-
-
