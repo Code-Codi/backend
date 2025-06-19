@@ -57,11 +57,16 @@ public class MeetingConverter {
     }
 
     public static MeetingListResponseDTO toMeetingListDTO(Meeting meeting) {
+        List<String> attendeeNames = meeting.getAttendees().stream()
+                .map(att -> att.getUserTeam().getUser().getUsername()) // UserTeam → User → name
+                .toList();
+
         return new MeetingListResponseDTO(
                 meeting.getId(),
                 meeting.getTitle(),
                 meeting.getLocation(),
-                meeting.getDateTime()
+                meeting.getDateTime(),
+                attendeeNames
         );
     }
 
