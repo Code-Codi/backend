@@ -6,9 +6,11 @@ import com.codiapp.codi.domain.meeting.dto.request.AgendaDetailUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.AgendaUpdateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.dto.request.DecisionUpdateRequestDTO;
+import com.codiapp.codi.domain.meeting.dto.request.MeetingAttendeeCreateRequestDTO;
 import com.codiapp.codi.domain.meeting.service.AgendaCommandService;
 import com.codiapp.codi.domain.meeting.service.AgendaDetailCommandService;
 import com.codiapp.codi.domain.meeting.service.DecisionCommandService;
+import com.codiapp.codi.domain.meeting.service.MeetingAttendeeCommandService;
 import com.codiapp.codi.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +33,7 @@ public class MeetingSubItemController {
     private final AgendaCommandService agendaCommandService;
     private final AgendaDetailCommandService agendaDetailCommandService;
     private final DecisionCommandService decisionCommandService;
+    private final MeetingAttendeeCommandService attendeeCommandService;
 
     //  Agenda
     @Operation(summary = "안건 생성", description = "회의 안건을 생성합니다.")
@@ -106,5 +109,12 @@ public class MeetingSubItemController {
             @PathVariable Long decisionId) {
         decisionCommandService.delete(decisionId);
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
+    }
+
+    @Operation(summary = "회의록 참여 인원 저장", description = "회의록 참여 인원 저장합니다.")
+    @PostMapping("/attendees")
+    public ResponseEntity<Void> createAttendees(@RequestBody MeetingAttendeeCreateRequestDTO request) {
+        attendeeCommandService.createAttendees(request);
+        return ResponseEntity.ok().build();
     }
 }
