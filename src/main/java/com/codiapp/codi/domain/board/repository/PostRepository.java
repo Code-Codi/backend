@@ -18,6 +18,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByIdAndBoardType(Long id, String boardType);
 
    List<Post> findTop3ByOrderByVisitorsDesc();
-
-
 }
