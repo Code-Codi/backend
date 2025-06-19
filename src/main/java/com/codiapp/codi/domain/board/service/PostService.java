@@ -106,8 +106,8 @@ public Page<PostSimpleResponseDTO> getPostsByType(String boardType, Pageable pag
         return PostConverter.toPostResponseDTO(post);
     }
 
-public List<PostSimpleResponseDTO> getPopularPosts() {
-    List<Post> popularPosts = postRepository.findTop3ByOrderByVisitorsDesc();
+public List<PostSimpleResponseDTO> getPopularPosts(String boardType) {
+    List<Post> popularPosts = postRepository.findTop3ByBoardTypeOrderByVisitorsDesc(boardType.toUpperCase());
     return popularPosts.stream()
         .map(PostConverter::toPostSimpleResponseDTO)
         .collect(Collectors.toList());

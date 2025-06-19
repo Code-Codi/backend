@@ -35,7 +35,7 @@ public class PostController {
 
     @GetMapping("/share/popular")
     public ApiResponse<List<PostSimpleResponseDTO>> getPopularPosts() {
-        return ApiResponse.onSuccess(postService.getPopularPosts());
+        return ApiResponse.onSuccess(postService.getPopularPosts("SHARE"));
     }
 
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
