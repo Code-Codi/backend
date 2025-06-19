@@ -54,7 +54,8 @@ public class TaskGuideConverter {
                 taskGuide.getId(),
                 taskGuide.getTitle(),
                 taskGuide.getDueDate(),
-                taskGuide.getCreatedAt()
+                taskGuide.getCreatedAt(),
+                taskGuide.getStatus()
         );
     }
 }
