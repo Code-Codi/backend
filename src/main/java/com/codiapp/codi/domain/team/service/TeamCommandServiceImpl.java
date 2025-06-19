@@ -1,7 +1,6 @@
 package com.codiapp.codi.domain.team.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.course.repository.CourseRepository;
@@ -15,10 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codiapp.codi.domain.user.entity.User;
 import com.codiapp.codi.domain.user.repository.UserRepository;
 import com.codiapp.codi.domain.team.converter.TeamConverter;
-import com.codiapp.codi.domain.team.dto.request.TeamCreateRequestDTO;
-import com.codiapp.codi.domain.team.dto.request.TeamUpdateRequestDTO;
+import com.codiapp.codi.domain.team.dto.request.TeamRequestDTO;
 import com.codiapp.codi.domain.team.dto.response.TeamCreateResponseDTO;
-import com.codiapp.codi.domain.team.dto.response.UserNameResponseDTO;
 import com.codiapp.codi.domain.team.entity.Team;
 import com.codiapp.codi.domain.team.entity.UserTeam;
 import com.codiapp.codi.domain.team.repository.TeamRepository;
@@ -35,7 +32,7 @@ public class TeamCommandServiceImpl implements TeamCommandService {
 
     @Override
     @Transactional
-    public TeamCreateResponseDTO createTeam(TeamCreateRequestDTO requestDTO) {
+    public TeamCreateResponseDTO createTeam(TeamRequestDTO requestDTO) {
         Course course = courseRepository.findById(requestDTO.courseId())
                 .orElseThrow(() -> new CourseHandler(ErrorStatus.COURSE_NOT_FOUND));
 
@@ -62,34 +59,33 @@ public class TeamCommandServiceImpl implements TeamCommandService {
 
     @Override
     @Transactional
-    public void updateTeam(Long teamId, TeamUpdateRequestDTO dto) {
+    public void updateTeam(Long teamId, TeamRequestDTO requestDTO) {
         Team team = teamRepository.findById(teamId)
-            .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
+            .orElseThrow(() -> new TeamHandler(ErrorStatus.TEAM_NOT_FOUND));
 
-        if (dto.getName() != null && !dto.getName().isBlank()) {
-            team.updateName(dto.getName());
+        if (requestDTO.name() != null && !requestDTO.name().isBlank()) {
+            team.updateName(requestDTO.name());
         }
-        if (dto.getMemberEmails() != null && !dto.getMemberEmails().isEmpty()) {
+
+        Course course = courseRepository.findById(requestDTO.courseId())
+                .orElseThrow(() -> new CourseHandler(ErrorStatus.COURSE_NOT_FOUND));
+
+        team.updateCourse(course);
+
+        if (requestDTO.memberEmails() != null && !requestDTO.memberEmails().isEmpty()) {
         	List<UserTeam> existing = userTeamRepository.findByTeamId(teamId);
             userTeamRepository.deleteAll(existing);
             userTeamRepository.flush();
             
-            List<UserTeam> newUserTeams = dto.getMemberEmails().stream()
+            List<UserTeam> newUserTeams = requestDTO.memberEmails().stream()
             	    .map(email -> {
             	        User user = userRepository.findByEmail(email)
-            	            .orElseThrow(() -> {
-            	                return new IllegalArgumentException("해당 유저 없음: " + email);
-            	            });
+            	            .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
-            	        return UserTeam.builder()
-            	            .team(team)
-            	            .user(user)
-            	            .build();
-            	    })
-            	    .collect(Collectors.toList());
+            	        return TeamConverter.toUserTeam(user, team);
+            	    }).toList();
 
-            	userTeamRepository.saveAll(newUserTeams);
-
+            userTeamRepository.saveAll(newUserTeams);
         }
     }
 
@@ -104,5 +100,4 @@ public class TeamCommandServiceImpl implements TeamCommandService {
 
         userTeamRepository.delete(toRemove);
     }
-
 }
