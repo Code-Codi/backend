@@ -3,6 +3,7 @@ package com.codiapp.codi.domain.user.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codiapp.codi.domain.user.dto.request.DeleteUserRequest;
 import com.codiapp.codi.domain.user.dto.request.LoginRequestDTO;
 import com.codiapp.codi.domain.user.dto.request.SignupRequestDTO;
 import com.codiapp.codi.domain.user.dto.response.LoginResponseDTO;

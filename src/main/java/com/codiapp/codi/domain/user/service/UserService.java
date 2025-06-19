@@ -1,7 +1,5 @@
 package com.codiapp.codi.domain.user.service;
 
-import com.codiapp.codi.domain.board.repository.PostRepository;
-import com.codiapp.codi.domain.team.repository.UserTeamRepository;
 import com.codiapp.codi.domain.user.converter.UserConverter;
 import com.codiapp.codi.domain.user.dto.request.LoginRequestDTO;
 import com.codiapp.codi.domain.user.dto.request.SignupRequestDTO;
@@ -11,7 +9,6 @@ import com.codiapp.codi.domain.user.repository.UserRepository;
 import com.codiapp.codi.global.apiPayload.code.status.ErrorStatus;
 import com.codiapp.codi.global.apiPayload.exception.handler.UserHandler;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,11 +21,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,  UserTeamRepository userTeamRepository, PostRepository postRepository){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userTeamRepository = userTeamRepository;
-        this.postRepository = postRepository;
     }
 
     public LoginResponseDTO login(LoginRequestDTO requestDTO){
