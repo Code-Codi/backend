@@ -22,7 +22,7 @@ public class TaskGuideDetailCommandServiceImpl implements TaskGuideDetailCommand
     @Override
     public Long createTaskGuideDetail(TaskGuideDetailCreateRequestDTO request) {
         TaskGuide taskGuide = taskGuideRepository.findById(request.taskGuideId())
-                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TaskGuide_NOT_FOUND));
+                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TASKGUIDE_NOT_FOUND));
 
         TaskGuideDetail detail = TaskGuideConverter.toTaskGuideDetail(request, taskGuide);
         return taskGuideDetailRepository.save(detail).getId();
@@ -32,7 +32,7 @@ public class TaskGuideDetailCommandServiceImpl implements TaskGuideDetailCommand
     @Transactional
     public void updateTaskGuideDetail(Long id, TaskGuideDetailUpdateRequestDTO request) {
         TaskGuideDetail taskGuideDetail = taskGuideDetailRepository.findById(id)
-                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TaskGuide_DETAIL_NOT_FOUND));
+                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TASKGUIDE_DETAIL_NOT_FOUND));
 
         taskGuideDetail.updateDetail(request);
     }
@@ -40,7 +40,7 @@ public class TaskGuideDetailCommandServiceImpl implements TaskGuideDetailCommand
     @Override
     public void deleteTaskGuideDetail(Long id) {
         TaskGuideDetail taskGuideDetail = taskGuideDetailRepository.findById(id)
-                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TaskGuide_DETAIL_NOT_FOUND));
+                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TASKGUIDE_DETAIL_NOT_FOUND));
 
         taskGuideDetailRepository.delete(taskGuideDetail);
     }
