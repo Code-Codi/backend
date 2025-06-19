@@ -85,7 +85,7 @@ public class TeamController {
         return ResponseEntity.ok(ApiResponse.onSuccess(response));
     }
 
-    @GetMapping("/userTeam/{teamId}")
+    @GetMapping("/{teamId}/userTeam")
     public ApiResponse<List<UserTeamMemberResponseDTO>> getNameAndTeamMembers(@PathVariable Long teamId) {
 
         return ApiResponse.onSuccess(teamQueryService.getUserTeamMembers(teamId));
