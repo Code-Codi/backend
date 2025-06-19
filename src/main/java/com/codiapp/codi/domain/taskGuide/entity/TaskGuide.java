@@ -5,6 +5,8 @@ import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideUpdateRequestDTO;
 import com.codiapp.codi.domain.course.entity.Course;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,6 +49,11 @@ public class TaskGuide {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private TaskGuideStatus status = TaskGuideStatus.NOT_STARTED;
+
     @OneToMany(mappedBy = "taskGuide", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id ASC")
     private List<TaskGuideDetail> details = new ArrayList<>();
@@ -63,6 +70,10 @@ public class TaskGuide {
     public void updateTaskGuide(TaskGuideUpdateRequestDTO request) {
         request.title().ifPresent(this::updateTitle);
         request.dueDate().ifPresent(this::updateDueDate);
+    }
+
+    public void updateStatus(TaskGuideStatus status) {
+        this.status = status;
     }
 
 }
