@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static com.codiapp.codi.global.apiPayload.code.status.ErrorStatus.TaskGuide_NOT_FOUND;
+import static com.codiapp.codi.global.apiPayload.code.status.ErrorStatus.TASKGUIDE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class TaskGuideQueryServiceImpl implements TaskGuideQueryService {
     @Override
     public TaskGuideResponseDTO getTaskGuide(Long id){
         TaskGuide taskGuide = taskGuideRepository.findById(id)
-                .orElseThrow(() -> new TaskGuideHandler(TaskGuide_NOT_FOUND));
+                .orElseThrow(() -> new TaskGuideHandler(TASKGUIDE_NOT_FOUND));
         return TaskGuideConverter.toTaskGuideResponeDTO(taskGuide);
     }
 

@@ -9,6 +9,7 @@ import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideCreateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.dto.request.TaskGuideUpdateRequestDTO;
 import com.codiapp.codi.domain.taskGuide.entity.TaskGuide;
 import com.codiapp.codi.domain.taskGuide.entity.TaskGuideDetail;
+import com.codiapp.codi.domain.taskGuide.entity.TaskGuideStatus;
 import com.codiapp.codi.domain.taskGuide.repository.TaskGuideRepository;
 import com.codiapp.codi.domain.course.entity.Course;
 import com.codiapp.codi.domain.course.repository.CourseRepository;
@@ -46,7 +47,7 @@ public class TaskGuideCommandServiceImpl implements TaskGuideCommandService {
     @Override
     public void updateTaskGuide(Long id, TaskGuideUpdateRequestDTO request) {
         TaskGuide taskGuide = taskGuideRepository.findById(id)
-                .orElseThrow(()-> new TaskGuideHandler(ErrorStatus.TaskGuide_NOT_FOUND));
+                .orElseThrow(()-> new TaskGuideHandler(ErrorStatus.TASKGUIDE_NOT_FOUND));
 
         taskGuide.updateTaskGuide(request);
     }
@@ -54,7 +55,7 @@ public class TaskGuideCommandServiceImpl implements TaskGuideCommandService {
     @Override
     public void deleteTaskGuide(Long id) {
         TaskGuide taskGuide = taskGuideRepository.findById(id)
-                .orElseThrow(()-> new TaskGuideHandler(ErrorStatus.TaskGuide_NOT_FOUND));
+                .orElseThrow(()-> new TaskGuideHandler(ErrorStatus.TASKGUIDE_NOT_FOUND));
 
         taskGuideRepository.delete(taskGuide);
     }
@@ -63,8 +64,13 @@ public class TaskGuideCommandServiceImpl implements TaskGuideCommandService {
     @Override
     public void generateTasks(Long taskGuideId) {
         TaskGuide guide = taskGuideRepository.findById(taskGuideId)
-                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TaskGuide_NOT_FOUND));
+                .orElseThrow(() -> new TaskGuideHandler(ErrorStatus.TASKGUIDE_NOT_FOUND));
+        if (guide.getStatus() == TaskGuideStatus.COMPLETED) {
+            throw new TaskGuideHandler(ErrorStatus.TASK_ALREADY_GENERATED);
+        }
+
         createEmptyTasksForTeams(guide);
+        guide.updateStatus(TaskGuideStatus.COMPLETED);
     }
 
     public void createEmptyTasksForTeams(TaskGuide guide) {

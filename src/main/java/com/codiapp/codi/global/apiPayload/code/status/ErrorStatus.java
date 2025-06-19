@@ -35,8 +35,9 @@ public enum ErrorStatus implements BaseErrorCode {
     TASK_DETAIL_NOT_FOUND(HttpStatus.BAD_REQUEST,"TASKD4001", "해당 TaskDetail을 찾을 수 없습니다."),
 
     //과제 제공 관련 에러
-    TaskGuide_NOT_FOUND(HttpStatus.BAD_REQUEST, "TGUIDE001", "과제제공이 없습니다."),
-    TaskGuide_DETAIL_NOT_FOUND(HttpStatus.BAD_REQUEST, "TGUIDE4002", "과제제공의 세부사항이 없습니다."),
+    TASKGUIDE_NOT_FOUND(HttpStatus.BAD_REQUEST, "TGUIDE001", "과제제공이 없습니다."),
+    TASKGUIDE_DETAIL_NOT_FOUND(HttpStatus.BAD_REQUEST, "TGUIDE4002", "과제제공의 세부사항이 없습니다."),
+    TASK_ALREADY_GENERATED(HttpStatus.BAD_REQUEST, "TGUIDE4003", "이미 과제가 생성되어 다시 생성할 수 없습니다."),
 
     //프로젝트 관련 에러
 	PROJECT_NOT_FOUND(HttpStatus.BAD_REQUEST, "PROJECT4001", "존재하지 않는 프로젝트입니다."),
